@@ -1,0 +1,15 @@
+{
+  "name": "safe-drops-bot",
+  "version": "1.0.0",
+  "description": "Turn the SNKRS shock drops into safe ones. Get notified.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "manuelbent",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}
