@@ -32,10 +32,14 @@ bot.onText(/\/unsubscribe/, async ({ chat: { id } }) => {
 })
 
 setInterval(async () => {
-    const { data } = await axios.get('https://www.nike.com/it/launch?s=upcoming')
+    const { data } = await axios.get('https://www.nike.com/it/launch') // hardcoded for italian site
     if (data.toLowerCase().includes('shock')) {
         for (const id in chats) {
-            await bot.sendMessage(id, 'It smells like a SHOCK DROP! 🚨 Open the SNKRS app now!')
+            try {
+                await bot.sendMessage(id, 'It smells like a SHOCK DROP! 🚨 Open the SNKRS app now!')
+            } catch ({ message }) {
+                console.log({ id, message })
+            }
         }
     }
-}, 20000)
+}, 60000 * 5)
