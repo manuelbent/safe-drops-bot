@@ -1,5 +1,6 @@
 import TelegramBot, { Message } from 'node-telegram-bot-api'
 
+import logger from '../utils/logger'
 import cache from '../datastore/Cache'
 
 export default (bot: TelegramBot) => async ({ chat: { id, first_name } }: Message) => {
@@ -10,7 +11,7 @@ export default (bot: TelegramBot) => async ({ chat: { id, first_name } }: Messag
             await bot.sendMessage(id, 'I will do my best to notify you, so you can open the SNKRS app and try to cop some heat! 🔥')
             await bot.sendMessage(id, 'To subscribe, type /subscribe.')
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 }

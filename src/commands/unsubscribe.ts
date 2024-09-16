@@ -1,5 +1,6 @@
 import TelegramBot, { Message } from 'node-telegram-bot-api'
 
+import logger from '../utils/logger'
 import cache from '../datastore/Cache'
 
 export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
@@ -9,7 +10,7 @@ export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
             await bot.sendMessage(id, 'Ok, I will not notify you anymore.')
             await bot.sendMessage(id, 'Do not forget to type /subscribe if you want to re-enable notifications!')
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 }

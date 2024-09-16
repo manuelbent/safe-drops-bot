@@ -5,6 +5,7 @@ import subscribe from './commands/subscribe'
 import unsubscribe from './commands/unsubscribe'
 import status from './commands/status'
 
+import logger from './utils/logger'
 import cache from './datastore/Cache'
 import httpClient from './services/HttpClient'
 
@@ -31,6 +32,6 @@ setInterval(async () => {
             }
         }
     } catch (error) {
-        console.log(error)
+        logger.error(error)
     }
 }, 3000)

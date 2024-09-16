@@ -5,13 +5,16 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node ./dist/index.js"
+    "start": "node --env-file=.env ./dist/index.js"
   },
   "author": "manuelbent",
   "license": "ISC",
   "dependencies": {
+    "@types/pino": "^7.0.4",
     "axios": "^1.7.7",
-    "node-telegram-bot-api": "^0.66.0"
+    "node-telegram-bot-api": "^0.66.0",
+    "pino": "^9.4.0",
+    "pino-pretty": "^11.2.2"
   },
   "devDependencies": {
     "@types/node": "^22.5.5",

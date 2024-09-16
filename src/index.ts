@@ -1,3 +1,5 @@
 import './bot'
 
-console.log('SafeDrops bot is running...')
+import logger from './utils/logger'
+
+logger.info('SafeDrops bot is running...')

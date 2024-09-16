@@ -1,5 +1,6 @@
 import TelegramBot, { Message } from 'node-telegram-bot-api'
 
+import logger from '../utils/logger'
 import cache from '../datastore/Cache'
 
 export default (bot: TelegramBot) => async ({ chat }: Message) => {
@@ -9,7 +10,7 @@ export default (bot: TelegramBot) => async ({ chat }: Message) => {
             await bot.sendMessage(chat.id, 'Alright! I will notify you when a SHOCK DROP is happening!')
             await bot.sendMessage(chat.id, 'To unsubscribe, type /unsubscribe.')
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 }
