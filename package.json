@@ -4,12 +4,18 @@
   "description": "Turn the SNKRS shock drops into safe ones. Get notified.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "node ./dist/index.js"
   },
   "author": "manuelbent",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.7",
     "node-telegram-bot-api": "^0.66.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.5",
+    "@types/node-telegram-bot-api": "^0.64.7",
+    "typescript": "^5.6.2"
   }
 }
