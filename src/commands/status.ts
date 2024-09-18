@@ -2,10 +2,12 @@ import TelegramBot, { Message } from 'node-telegram-bot-api'
 
 import logger from '../utils/logger'
 import cache from '../datastore/Cache'
+import httpClient from '../services/HttpClient'
 
 export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
     try {
-        await bot.sendMessage(id, cache.subscriptions.has(id) ? 'Subscribed' : 'Unsubscribed')
+        await bot.sendMessage(id, `subscription: ${ cache.subscriptions.has(id) ? 'active' : 'inactive' }`)
+        await bot.sendMessage(id, `monitoring: ${ await httpClient.isAlive() ? 'operational' : 'down' }`)
     } catch (error) {
         logger.error(error)
     }
