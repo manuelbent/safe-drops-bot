@@ -19,7 +19,7 @@ jobs:
           ssh-private-key: ${{ secrets.IONOS_SSH_PRIVATE_KEY }}
 
       - name: Copy files to Ionos server
-        run: scp -r ./* user@${{ secrets.IONOS_HOST }}:/var/www/safe-drops-bot/
+        run: scp -r ./* root@${{ secrets.IONOS_HOST }}:/var/www/safe-drops-bot/
 
       - name: Install dependencies
         run: |
