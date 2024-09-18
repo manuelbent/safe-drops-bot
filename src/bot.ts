@@ -24,28 +24,19 @@ bot.onText(/\/status/, status(bot))
 
 bot.onText(/\/help/, help(bot))
 
-;(function monitor() {
-    // generate a random interval between 1 and 5 minutes
-    const interval = (Math.floor(Math.random() * 5) + 1) * 60000
-    setTimeout(async () => {
-        try {
-            // if there are no subscriptions, there is no need to check for a shock drop
-            if (!cache.subscriptions.size) return monitor()
-
-            // fetch the feed from Nike APIs
-            const feed = await httpClient.getFeed()
-
-            // if the feed does not contain the word 'shock', there is no need to notify the subscribers
-            if (!feed.includes('shock')) return monitor()
-
-            // notify the subscribers
-            for (const id of cache.subscriptions.keys()) {
-                await bot.sendMessage(id, 'It smells like a SHOCK DROP! 🚨 Open the SNKRS app now!')
-            }
-        } catch (error) {
-            logger.error('Something went wrong while monitoring', error)
-        } finally {
-            monitor()
+setInterval(async () => {
+    try {
+        // if there are no subscriptions, there is no need to check for a shock drop
+        if (!cache.subscriptions.size) return
+        // fetch the feed from Nike APIs
+        const feed = await httpClient.getFeed()
+        // if the feed does not contain the word 'shock', there is no need to notify the subscribers
+        if (!feed.includes('shock')) return
+        // notify the subscribers
+        for (const id of cache.subscriptions.keys()) {
+            await bot.sendMessage(id, 'It smells like a SHOCK DROP! 🚨 Open the SNKRS app now!')
         }
-    }, interval)
-})()
+    } catch (error) {
+        logger.error(error)
+    }
+}, 60000 * 5)
