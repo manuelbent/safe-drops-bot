@@ -4,6 +4,7 @@ import start from './commands/start'
 import subscribe from './commands/subscribe'
 import unsubscribe from './commands/unsubscribe'
 import status from './commands/status'
+import help from './commands/help'
 
 import logger from './utils/logger'
 import cache from './datastore/Cache'
@@ -20,6 +21,8 @@ bot.onText(/\/subscribe/, subscribe(bot))
 bot.onText(/\/unsubscribe/, unsubscribe(bot))
 
 bot.onText(/\/status/, status(bot))
+
+bot.onText(/\/help/, help(bot))
 
 ;(function monitor() {
     // generate a random interval between 1 and 5 minutes
