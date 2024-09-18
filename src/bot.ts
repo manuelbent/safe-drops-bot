@@ -40,7 +40,7 @@ bot.onText(/\/status/, status(bot))
                 await bot.sendMessage(id, 'It smells like a SHOCK DROP! 🚨 Open the SNKRS app now!')
             }
         } catch (error) {
-            logger.error('Error thrown during monitoring', error)
+            logger.error('Something went wrong while monitoring', error)
         } finally {
             monitor()
         }

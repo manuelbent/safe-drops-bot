@@ -9,6 +9,6 @@ export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
         await bot.sendMessage(id, `subscription: ${ cache.subscriptions.has(id) ? 'active' : 'inactive' }`)
         await bot.sendMessage(id, 'monitoring: ' + await httpClient.getFeed().then(() => 'operational').catch(() => 'down'))
     } catch (error) {
-        logger.error(error)
+        logger.error(`Something went wrong with chat ${ id } status request`, error)
     }
 }
