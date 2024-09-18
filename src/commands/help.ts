@@ -8,11 +8,11 @@ export default (bot: TelegramBot) => async ({ chat: { id, first_name } }: Messag
         await bot.sendMessage(id, 'Everything is going to be alright.')
         await bot.sendMessage(id, 'Here are the commands you can use:')
         const commands = [
-            { command: '/start', description: 'Start interacting with the bot' },
-            { command: '/subscribe', description: 'Subscribe to notifications' },
-            { command: '/unsubscribe', description: 'Unsubscribe from notifications' },
-            { command: '/status', description: 'Check your subscription and the bot status' },
-            { command: '/help', description: 'Show this help message' },
+            { command: '/start', description: 'start interacting with the bot' },
+            { command: '/subscribe', description: 'subscribe to notifications' },
+            { command: '/unsubscribe', description: 'unsubscribe from notifications' },
+            { command: '/status', description: 'check subscription and bot status' },
+            { command: '/help', description: 'show this help message' },
         ]
         const text = commands.reduce((acc, { command, description }) => `${ acc }${ command } - ${ description }\n`, '')
         await bot.sendMessage(id, text, { parse_mode: 'Markdown' })
