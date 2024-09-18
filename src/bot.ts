@@ -23,13 +23,15 @@ bot.onText(/\/status/, status(bot))
 
 setInterval(async () => {
     try {
-        if (!!cache.subscriptions.size) {
-            const feed = await httpClient.getFeed()
-            if (feed.includes('shock')) {
-                for (const id of cache.subscriptions.keys()) {
-                    await bot.sendMessage(id, 'It smells like a SHOCK DROP! 🚨 Open the SNKRS app now!')
-                }
-            }
+        // if there are no subscriptions, there is no need to check for a shock drop
+        if (!cache.subscriptions.size) return
+        // fetch the feed from Nike APIs
+        const feed = await httpClient.getFeed()
+        // if the feed does not contain the word 'shock', there is no need to notify the subscribers
+        if (!feed.includes('shock')) return
+        // notify the subscribers
+        for (const id of cache.subscriptions.keys()) {
+            await bot.sendMessage(id, 'It smells like a SHOCK DROP! 🚨 Open the SNKRS app now!')
         }
     } catch (error) {
         logger.error(error)
