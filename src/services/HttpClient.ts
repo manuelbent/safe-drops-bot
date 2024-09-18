@@ -16,14 +16,6 @@ class HttpClient {
         const { data } = await this.client.get('/feed')
         return JSON.stringify(data).toLowerCase()
     }
-
-    async isAlive(): Promise<any> {
-        try {
-            return !!await this.client.get('/feed')
-        } catch (_) {
-            return false
-        }
-    }
 }
 
 export default new HttpClient()

@@ -6,8 +6,10 @@ import httpClient from '../services/HttpClient'
 
 export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
     try {
+        // tmp
+        logger.info(await httpClient.getFeed())
         await bot.sendMessage(id, `subscription: ${ cache.subscriptions.has(id) ? 'active' : 'inactive' }`)
-        await bot.sendMessage(id, `monitoring: ${ await httpClient.isAlive() ? 'operational' : 'down' }`)
+        await bot.sendMessage(id, 'monitoring: ' + await httpClient.getFeed().then(() => 'operational').catch(() => 'down'))
     } catch (error) {
         logger.error(error)
     }
