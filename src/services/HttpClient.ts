@@ -1,5 +1,7 @@
 import axios, { Axios } from 'axios'
 
+import logger from '../utils/logger'
+
 class HttpClient {
     private client: Axios
 
@@ -13,7 +15,8 @@ class HttpClient {
     }
 
     async getFeed(): Promise<string> {
-        const { data } = await this.client.get('/feed')
+        const { data, status } = await this.client.get('/feed')
+        logger.info(`${ status } GET /feed`)
         return JSON.stringify(data).toLowerCase()
     }
 }
