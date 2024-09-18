@@ -1,4 +1,4 @@
-const { exec } = require('child_process')
+const { execSync } = require('node:child_process')
 
 const commands = [
     'sudo ip rule add from $(ip route get 1 | grep -Po \'(?<=src )(\\S+)\') table 128',
@@ -8,7 +8,7 @@ const commands = [
 ]
 
 for (const command of commands) {
-    exec(command, (error, stdout, stderr) => {
+    execSync(command, (error, stdout, stderr) => {
         if (error) {
             console.error(`Could not execute command: ${command} (error):`, error)
             return
