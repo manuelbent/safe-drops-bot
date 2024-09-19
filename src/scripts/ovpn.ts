@@ -13,6 +13,6 @@ import logger from '../utils/logger'
     // randomly select a VPN config file
     const config = `/etc/openvpn/ovpn_tcp/${configs[Math.floor(Math.random() * configs.length)]}`
     // enable the VPN connection
-    logger.info(`Enabling VPN connection...`)
+    logger.info(`Enabling VPN connection with ${config}...`)
     await _exec(`sudo openvpn --config ${config} --auth-user-pass /etc/openvpn/vpn-auth.txt`)
 })()
