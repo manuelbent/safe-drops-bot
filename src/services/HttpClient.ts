@@ -19,12 +19,6 @@ class HttpClient {
         logger.info(`${ status } GET /feed`)
         return JSON.stringify(data)
     }
-
-    async getUpcoming(): Promise<string> {
-        const { data, status } = await this.client.get('/upcoming')
-        logger.info(`${ status } GET /upcoming`)
-        return JSON.stringify(data)
-    }
 }
 
 export default new HttpClient()
