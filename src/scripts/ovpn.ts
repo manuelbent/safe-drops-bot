@@ -3,7 +3,8 @@ import { exec } from 'node:child_process'
 
 import logger from '../utils/logger'
 
-;(async () => {
+
+(async () => {
     const commands = [
         'sudo ip rule add from $(ip route get 1 | grep -Po \'(?<=src )(\\S+)\') table 128',
         'sudo ip route add table 128 to $(ip route get 1 | grep -Po \'(?<=src )(\\S+)\')/32 dev $(ip -4 route ls | grep default | grep -Po \'(?<=dev )(\\S+)\')',
@@ -16,10 +17,11 @@ import logger from '../utils/logger'
     const _exec = promisify(exec)
 
     for (const command of commands) {
-        logger.info(`Executing command: ${command}`)
-        const { stderr } = await _exec(command)
-        if (stderr) {
-            logger.error(`Could not execute command: ${command} (stderr): ${stderr}`)
+        try {
+            logger.info(`Executing command: ${command}`)
+            await _exec(command)
+        } catch (error) {
+            logger.error(`Could not execute command: ${command} (error): ${error}`)
         }
     }
 })()
