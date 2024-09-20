@@ -40,4 +40,4 @@ setInterval(async () => {
     } catch (error) {
         logger.error(error)
     }
-}, 60000 * 5)
+}, 30000)
