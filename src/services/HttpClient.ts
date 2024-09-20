@@ -16,7 +16,6 @@ class HttpClient {
 
     async getFeed(): Promise<string> {
         const { data, status } = await this.client.get('/feed')
-        logger.info(`${ status } GET /feed`)
         return JSON.stringify(data)
     }
 }
