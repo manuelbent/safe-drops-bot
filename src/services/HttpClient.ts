@@ -1,5 +1,7 @@
 import axios, { Axios } from 'axios'
 
+import { _exec } from '../utils/commands'
+
 class HttpClient {
     private client: Axios
 
@@ -10,6 +12,18 @@ class HttpClient {
                 'User-Agent': 'PostmanRuntime/7.26.8',
             }
         })
+
+        this.client.interceptors.response.use(
+            response => response,
+            async error => {
+                if (error.response && error.response.status === 403) {
+                    await _exec('pm2 restart ovpn')
+                    await new Promise(resolve => setTimeout(resolve, 5000))
+                    return axios(error.config)
+                }
+                return Promise.reject(error)
+            }
+        )
     }
 
     async getFeed(): Promise<string> {
