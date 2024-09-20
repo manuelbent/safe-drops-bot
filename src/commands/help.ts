@@ -17,6 +17,6 @@ export default (bot: TelegramBot) => async ({ chat: { id, first_name } }: Messag
         const text = commands.reduce((acc, { command, description }) => `${ acc }${ command } - ${ description }\n`, '')
         await bot.sendMessage(id, text, { parse_mode: 'Markdown' })
     } catch (error) {
-        logger.error(`Something went wrong while helping chat ${ id }`, error)
+        logger.error(`Something went wrong while helping chat ${ id }: ${error}`)
     }
 }

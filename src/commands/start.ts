@@ -14,6 +14,6 @@ export default (bot: TelegramBot) => async ({ chat: { id, first_name } }: Messag
         await bot.sendMessage(id, 'I will do my best to notify you, so you can open the SNKRS app and try to cop some heat! 🔥')
         await bot.sendMessage(id, 'To subscribe, type /subscribe.')
     } catch (error) {
-        logger.error(`Something went wrong while welcoming chat ${ id }`, error)
+        logger.error(`Something went wrong while welcoming chat ${ id }: ${error}`)
     }
 }

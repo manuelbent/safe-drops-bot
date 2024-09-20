@@ -14,6 +14,6 @@ export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
         await bot.sendMessage(id, 'Do not forget to type /subscribe if you want to re-enable notifications!')
         logger.info(`Chat ${ id } unsubscribed`)
     } catch (error) {
-        logger.error(`Something went wrong while unsubscribing chat ${ id }`, error)
+        logger.error(`Something went wrong while unsubscribing chat ${ id }: ${error}`)
     }
 }
