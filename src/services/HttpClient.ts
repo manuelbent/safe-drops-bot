@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosResponse } from 'axios'
+import axios, { Axios } from 'axios'
 
 class HttpClient {
     private client: Axios
@@ -13,14 +13,8 @@ class HttpClient {
     }
 
     async getFeed(): Promise<string> {
-        let { data: { items, pagination: { next: { href } } } }: AxiosResponse<FeedResponse> = await this.client.get('/feed')
-        // paginate as long as pagination.next.href has something
-        while (href) {
-            const { data }: AxiosResponse<FeedResponse> = await this.client.get(href)
-            items.push(data.items)
-            href = data.pagination.next.href
-        }
-        return JSON.stringify(items)
+        const { data } = await this.client.get('/feed')
+        return JSON.stringify(data)
     }
 }
 
