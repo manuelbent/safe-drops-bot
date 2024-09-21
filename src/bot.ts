@@ -7,8 +7,8 @@ import status from './commands/status'
 import help from './commands/help'
 
 import logger from './utils/logger'
-import cache from './datastore/Cache'
-import httpClient from './services/HttpClient'
+import chatRepository from './repositories/ChatRepository'
+import httpClient from './utils/HttpClient'
 
 const token = process.env.TELEGRAM_BOT_TOKEN
 
@@ -26,14 +26,15 @@ bot.onText(/\/help/, help(bot))
 
 setInterval(async () => {
     try {
+        const chats = await chatRepository.findAll()
         // if there are no subscriptions, there is no need to check for a shock drop
-        if (!cache.subscriptions.size) return
+        if (!chats.length) return
         // fetch the feed from Nike APIs
         const feed = await httpClient.getFeed()
         // if the feed does not contain the word 'shock', do nothing
         if (!feed.match(/shock/gi)) return
         // notify the subscribers
-        for (const id of cache.subscriptions.keys()) {
+        for (const { id } of chats) {
             await bot.sendMessage(id, 'It smells like a SHOCK DROP! 🚨 Open the SNKRS app now!')
             await bot.sendMessage(id, 'Remember to /unsubscribe to stop receiving notifications.')
         }

@@ -1,6 +1,6 @@
 import axios, { Axios } from 'axios'
 
-import { _exec } from '../utils/commands'
+import { _exec } from './commands'
 
 class HttpClient {
     private client: Axios
@@ -18,7 +18,7 @@ class HttpClient {
             async error => {
                 if (error.response && error.response.status === 403) {
                     await _exec('pm2 restart ovpn')
-                    await new Promise(resolve => setTimeout(resolve, 5000))
+                    await new Promise(resolve => setTimeout(resolve, 10000))
                     return axios(error.config)
                 }
                 return Promise.reject(error)
