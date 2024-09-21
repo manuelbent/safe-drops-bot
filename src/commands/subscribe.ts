@@ -9,8 +9,7 @@ export default (bot: TelegramBot) => async ({ chat }: Message) => {
 
     // subscribe the chat
     try {
-        const tmp = await chatRepository.create(chat)
-        console.log(tmp)
+        await chatRepository.create(chat)
         await bot.sendMessage(chat.id, 'Alright! I will notify you when a SHOCK DROP is happening!')
         await bot.sendMessage(chat.id, 'To unsubscribe, type /unsubscribe.')
         logger.info(`Chat ${chat.id} subscribed`)
