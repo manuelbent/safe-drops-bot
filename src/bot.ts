@@ -26,6 +26,7 @@ bot.onText(/\/help/, help(bot))
 
 setInterval(async () => {
     try {
+        // fetch all active chats
         const chats = await chatRepository.findAll()
         // if there are no subscriptions, there is no need to check for a shock drop
         if (!chats.length) return
