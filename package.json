@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node --env-file=.env ./dist/index.js"
+    "start": "node --env-file=.env ./dist/index.js",
+    "migrate:up": "npx sequelize-cli db:migrate --config src/database/config.json --migrations-path src/database/migrations",
+    "migrate:down": "npx sequelize-cli db:migrate:undo --config src/database/config.json --migrations-path src/database/migrations"
   },
   "author": "manuelbent",
   "license": "ISC",
