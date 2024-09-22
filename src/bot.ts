@@ -62,7 +62,7 @@ setInterval(async () => {
             const { title, subtitle, effective_start_sell_date, img_url } = await releaseRepository.create(item)
             // notify the subscribers
             for (const { id } of chats) {
-                const caption = `New release alert!🚨\n${effective_start_sell_date.toLocaleDateString('en-CA')} ${effective_start_sell_date.toLocaleTimeString()}\n${subtitle}\n<b>${title}</b>`
+                const caption = `${effective_start_sell_date.toLocaleString('it-IT')}\n${subtitle}\n<b>${title}</b>`
                 await bot.sendPhoto(id, img_url, { caption, parse_mode: 'HTML' })
             }
         }
