@@ -1,7 +1,5 @@
 import { Chat } from 'node-telegram-bot-api'
 
-class Cache {
-    subscriptions = new Map<number, Chat>()
-}
+class Cache {}
 
 export default new Cache()

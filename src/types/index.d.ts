@@ -1,6 +1,5 @@
-interface Product {
-    title: string
-    effective_start_sell_date: string
+interface UpcomingItem {
+    effective_start_sell_date: Date
     cover_card: {
         square_image: {
             url: string

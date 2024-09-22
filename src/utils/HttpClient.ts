@@ -31,7 +31,7 @@ class HttpClient {
         return JSON.stringify(data)
     }
 
-    async getUpcoming(): Promise<Product[]> {
+    async getUpcoming(): Promise<UpcomingItem[]> {
         const items = []
         let path = '/upcoming'
         do {
