@@ -30,7 +30,7 @@ TELEGRAM_BOT_TOKEN=<your-token>
 
 Once the configuration is finished, you can launch the application, you can build the container in a safe way:
 ```bash
-$ docker compose build --nocache
+$ docker compose build --no-cache
 ```
 and then launch it:
 ```bash
