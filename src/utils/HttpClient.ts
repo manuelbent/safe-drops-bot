@@ -1,6 +1,6 @@
 import axios, { Axios } from 'axios'
 
-import { _exec } from './commands'
+import { _exec, sleep } from './commands'
 
 class HttpClient {
     private client: Axios
@@ -18,7 +18,7 @@ class HttpClient {
             async error => {
                 if (error.response && error.response.status === 403) {
                     await _exec('pm2 restart ovpn')
-                    await new Promise(resolve => setTimeout(resolve, 10000))
+                    await sleep(10)
                     return axios(error.config)
                 }
                 return Promise.reject(error)
@@ -29,6 +29,18 @@ class HttpClient {
     async getFeed(): Promise<string> {
         const { data } = await this.client.get('/feed')
         return JSON.stringify(data)
+    }
+
+    async getUpcoming(): Promise<Product[]> {
+        const items = []
+        let path = '/upcoming'
+        do {
+            const { data } = await this.client.get(path)
+            items.push(...data.items)
+            path = data.pagination.next.href
+            await sleep(1)
+        } while (path)
+        return items
     }
 }
 
