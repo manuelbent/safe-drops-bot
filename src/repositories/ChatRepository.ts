@@ -1,23 +1,6 @@
-import { Chat as TelegramChat } from 'node-telegram-bot-api'
-
 import Chat from '../models/Chat'
+import BaseRepository from './BaseRepository'
 
-class ChatRepository {
-    async create(chat: TelegramChat): Promise<Chat> {
-        return Chat.create({ ...chat })
-    }
+class ChatRepository extends BaseRepository<Chat> {}
 
-    async findById(id: number): Promise<Chat|null> {
-        return Chat.findByPk(id)
-    }
-
-    async findAll(): Promise<Chat[]> {
-        return Chat.findAll()
-    }
-
-    async delete(id: number): Promise<void> {
-        await Chat.destroy({ where: { id } })
-    }
-}
-
-export default new ChatRepository()
+export default new ChatRepository(Chat)

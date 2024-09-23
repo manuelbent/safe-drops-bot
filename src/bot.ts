@@ -7,9 +7,9 @@ import status from './commands/status'
 import help from './commands/help'
 
 import logger from './utils/logger'
-import chatRepository from './repositories/ChatRepository'
 import httpClient from './utils/HttpClient'
-import releaseRepository from './repositories/ReleaseRepository'
+import chatService from './services/ChatService'
+import releaseService from './services/ReleaseService'
 
 const token = process.env.TELEGRAM_BOT_TOKEN
 
@@ -29,7 +29,7 @@ bot.onText(/\/help/, help(bot))
 setInterval(async () => {
     try {
         // fetch all active chats
-        const chats = await chatRepository.findAll()
+        const chats = await chatService.findAll()
         // if there are no subscriptions, there is no need to check for a shock drop
         if (!chats.length) return
         // fetch the feed from Nike APIs
@@ -50,16 +50,16 @@ setInterval(async () => {
 setInterval(async () => {
     try {
         // fetch all active chats
-        const chats = await chatRepository.findAll()
+        const chats = await chatService.findAll()
         // if there are no subscriptions, there is no need to check for a new upcoming releases
         if (!chats.length) return
         // fetch the upcoming releases from Nike APIs
         const upcoming = await httpClient.getUpcoming()
         for (const item of upcoming) {
             // if the release already exists in the database, skip it
-            if (await releaseRepository.exists(item)) continue
+            if (await releaseService.exists(item)) continue
             // create the release in the database
-            const { title, subtitle, effective_start_sell_date, img_url } = await releaseRepository.create(item)
+            const { title, subtitle, effective_start_sell_date, img_url } = await releaseService.create(item)
             // notify the subscribers
             for (const { id } of chats) {
                 const caption = `${effective_start_sell_date.toLocaleString('it-IT')}\n${subtitle}\n<b>${title}</b>`

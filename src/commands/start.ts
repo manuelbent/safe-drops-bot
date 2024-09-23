@@ -1,11 +1,11 @@
 import TelegramBot, { Message } from 'node-telegram-bot-api'
 
 import logger from '../utils/logger'
-import chatRepository from '../repositories/ChatRepository'
+import chatService from '../services/ChatService'
 
 export default (bot: TelegramBot) => async ({ chat: { id, first_name } }: Message) => {
     // if the user is already subscribed, there is no need to send the welcome message
-    if (await chatRepository.findById(id)) return
+    if (await chatService.exists(id)) return
 
     // welcome the user and ask to subscribe
     try {
