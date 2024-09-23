@@ -9,7 +9,7 @@ class ReleaseService {
             effective_start_sell_date: data.effective_start_sell_date,
             subtitle: data.cover_card.subtitle,
             img_url: data.cover_card.square_image.url,
-            deeplink: `https://redirect.prizzle.dev/?url=snkrs://product/${data.products[0].style_color}`
+            deeplink: `snkrs://product/${data.products[0].style_color}`
         })
     }
 

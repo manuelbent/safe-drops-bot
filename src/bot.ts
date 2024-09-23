@@ -59,11 +59,17 @@ setInterval(async () => {
             // if the release already exists in the database, skip it
             if (await releaseService.exists(item)) continue
             // create the release in the database
-            const { title, subtitle, effective_start_sell_date, img_url, deeplink } = await releaseService.create(item)
+            const release = await releaseService.create(item)
+            const details = {
+                date: release.effective_start_sell_date.toLocaleString(),
+                subtitle: release.subtitle,
+                title: `<b>${release.title}</b>`,
+                deeplink: `<a href="https://redirect.prizzle.dev/?url=${release.deeplink}">View on SNKRS</a>`,
+            }
             // notify the subscribers
             for (const { id } of chats) {
-                const caption = `${effective_start_sell_date.toLocaleString()}\n${subtitle}\n<b>${title}</b>\n<a href="${deeplink}">View on SNKRS</a>`
-                await bot.sendPhoto(id, img_url, { caption, parse_mode: 'HTML' })
+                const caption = Object.values(details).reduce((acc, curr) => `${acc}\n${curr}`)
+                await bot.sendPhoto(id, release.img_url, { caption, parse_mode: 'HTML' })
             }
         }
     } catch (error) {
