@@ -59,10 +59,10 @@ setInterval(async () => {
             // if the release already exists in the database, skip it
             if (await releaseService.exists(item)) continue
             // create the release in the database
-            const { title, subtitle, effective_start_sell_date, img_url } = await releaseService.create(item)
+            const { title, subtitle, effective_start_sell_date, img_url, deeplink } = await releaseService.create(item)
             // notify the subscribers
             for (const { id } of chats) {
-                const caption = `${effective_start_sell_date.toLocaleString('it-IT')}\n${subtitle}\n<b>${title}</b>`
+                const caption = `${effective_start_sell_date.toLocaleString()}\n${subtitle}\n<b>${title}</b>\n<a href="${deeplink}">View on SNKRS</a>`
                 await bot.sendPhoto(id, img_url, { caption, parse_mode: 'HTML' })
             }
         }

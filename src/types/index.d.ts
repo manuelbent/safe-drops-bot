@@ -7,4 +7,9 @@ interface UpcomingItem {
         subtitle: string
         title: string
     }
+    products: [
+        {
+            style_color: string
+        }
+    ]
 }

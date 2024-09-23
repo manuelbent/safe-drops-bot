@@ -8,6 +8,7 @@ class Release extends Model {
     public subtitle!: string
     public effective_start_sell_date!: Date
     public img_url!: string
+    public deeplink?: string
 }
 
 Release.init(
@@ -33,6 +34,10 @@ Release.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        deeplink: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        }
     },
     {
         sequelize,

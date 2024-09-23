@@ -5,9 +5,11 @@ RUN apk add --no-cache python3 make gcc g++
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY database ./database
+COPY src ./src
 COPY .env ./
-COPY . .
+COPY package*.json ./
+COPY tsconfig.json ./
 
 RUN npm install
 RUN npm run migrate:up
