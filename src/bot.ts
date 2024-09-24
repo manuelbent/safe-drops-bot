@@ -75,4 +75,4 @@ setInterval(async () => {
     } catch (error) {
         logger.error(error)
     }
-}, 10000)
+}, 60000 * 5) // check every 5 minutes
