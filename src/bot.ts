@@ -9,7 +9,7 @@ import help from './commands/help'
 import logger from './utils/logger'
 import httpClient from './utils/HttpClient'
 import chatService from './services/ChatService'
-import releaseService from './services/ReleaseService'
+import upcomingItemService from './services/UpcomingItemService'
 
 const token = process.env.TELEGRAM_BOT_TOKEN
 
@@ -46,33 +46,33 @@ setInterval(async () => {
     }
 }, 60000) // check every minute
 
-// check for a new upcoming releases every 5 minutes
+// check for a new upcoming items every 5 minutes
 setInterval(async () => {
     try {
         // fetch all active chats
         const chats = await chatService.findAll()
-        // if there are no subscriptions, there is no need to check for a new upcoming releases
+        // if there are no subscriptions, there is no need to check for upcoming items
         if (!chats.length) return
-        // fetch the upcoming releases from Nike APIs
+        // fetch the upcoming items from Nike APIs
         const upcoming = await httpClient.getUpcoming()
         for (const item of upcoming) {
-            // if the release already exists in the database, skip it
-            if (await releaseService.exists(item)) continue
-            // create the release in the database
-            const release = await releaseService.create(item)
+            // if the item already exists in the database, skip it
+            if (await upcomingItemService.exists(item)) continue
+            // create the upcoming item in the database
+            const ui = await upcomingItemService.create(item)
             const details = {
-                date: release.effective_start_sell_date.toLocaleString(),
-                subtitle: release.subtitle,
-                title: `<b>${release.title}</b>`,
-                deeplink: `<a href="https://redirect.prizzle.dev/?url=${release.deeplink}">View on SNKRS</a>`,
+                date: `ui.effectiveStartSellDate.toLocaleString() (UTC)`,
+                subtitle: ui.subtitle,
+                title: `<b>${ui.title}</b>`,
+                deeplink: `<a href="https://redirect.prizzle.dev/?url=${ui.deeplink}">View on SNKRS</a>`,
             }
             // notify the subscribers
             for (const { id } of chats) {
                 const caption = Object.values(details).reduce((acc, curr) => `${acc}\n${curr}`)
-                await bot.sendPhoto(id, release.img_url, { caption, parse_mode: 'HTML' })
+                await bot.sendPhoto(id, ui.imgURL, { caption, parse_mode: 'HTML' })
             }
         }
     } catch (error) {
         logger.error(error)
     }
-}, 60000 * 5)
+}, 10000)

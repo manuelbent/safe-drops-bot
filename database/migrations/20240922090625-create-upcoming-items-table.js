@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('releases', {
+        await queryInterface.createTable('upcoming_items', {
             id: {
                 type: Sequelize.INTEGER,
                 primaryKey: true,
@@ -25,11 +25,15 @@ module.exports = {
             img_url: {
                 type: Sequelize.STRING,
                 allowNull: false,
-            }
+            },
+            deeplink: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
         })
     },
 
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('releases')
+        await queryInterface.dropTable('upcoming_items')
     }
 }

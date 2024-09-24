@@ -1,4 +1,4 @@
-interface UpcomingItem {
+interface NikeUpcomingItem {
     effective_start_sell_date: Date
     cover_card: {
         square_image: {

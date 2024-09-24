@@ -2,10 +2,9 @@ import TelegramBot, { Message } from 'node-telegram-bot-api'
 
 import logger from '../utils/logger'
 
-export default (bot: TelegramBot) => async ({ chat: { id, first_name } }: Message) => {
+export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
     try {
-        await bot.sendMessage(id, `Don't panic, ${ first_name }.`)
-        await bot.sendMessage(id, 'Everything is going to be alright.')
+        await bot.sendMessage(id, `Don't panic, everything is going to be alright.`)
         await bot.sendMessage(id, 'Here are the commands you can use:')
         const commands = [
             { command: '/start', description: 'start interacting with the bot' },

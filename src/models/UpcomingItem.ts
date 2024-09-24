@@ -2,16 +2,16 @@ import { Model, DataTypes } from 'sequelize'
 
 import sequelize from '../../database/sequelize'
 
-class Release extends Model {
+class UpcomingItem extends Model {
     public id!: number
     public title!: string
     public subtitle!: string
-    public effective_start_sell_date!: Date
-    public img_url!: string
+    public effectiveStartSellDate!: Date
+    public imgURL!: string
     public deeplink?: string
 }
 
-Release.init(
+UpcomingItem.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -26,25 +26,27 @@ Release.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        effective_start_sell_date: {
+        effectiveStartSellDate: {
             type: DataTypes.DATE,
             allowNull: false,
+            field: 'effective_start_sell_date',
         },
-        img_url: {
+        imgURL: {
             type: DataTypes.STRING,
             allowNull: false,
+            field: 'img_url',
         },
         deeplink: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: false,
         }
     },
     {
         sequelize,
-        modelName: 'Release',
-        tableName: 'releases',
+        modelName: 'UpcomingItem',
+        tableName: 'upcoming_items',
         timestamps: false,
     }
 )
 
-export default Release
+export default UpcomingItem

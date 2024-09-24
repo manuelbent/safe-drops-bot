@@ -4,9 +4,7 @@ import sequelize from '../../database/sequelize'
 
 class Chat extends Model {
     public id!: number
-    public username?: string
-    public first_name?: string
-    public subscribed_at!: Date
+    public subscribedAt!: Date
 }
 
 Chat.init(
@@ -15,18 +13,11 @@ Chat.init(
             type: DataTypes.INTEGER,
             primaryKey: true,
         },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        first_name: {
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
-        subscribed_at: {
+        subscribedAt: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
             allowNull: false,
+            field: 'subscribed_at',
         }
     },
     {

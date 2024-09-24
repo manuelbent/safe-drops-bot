@@ -9,14 +9,6 @@ module.exports = {
                 primaryKey: true,
                 allowNull: false,
             },
-            username: {
-                type: Sequelize.STRING,
-                allowNull: true,
-            },
-            first_name: {
-                type: Sequelize.STRING,
-                allowNull: true,
-            },
             subscribed_at: {
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.NOW,
