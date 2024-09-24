@@ -61,7 +61,7 @@ setInterval(async () => {
             // create the upcoming item in the database
             const ui = await upcomingItemService.create(item)
             const details = {
-                date: `ui.effectiveStartSellDate.toLocaleString() (UTC)`,
+                date: `${ui.effectiveStartSellDate.toLocaleString()} (UTC)`,
                 subtitle: ui.subtitle,
                 title: `<b>${ui.title}</b>`,
                 deeplink: `<a href="https://redirect.prizzle.dev/?url=${ui.deeplink}">View on SNKRS</a>`,
