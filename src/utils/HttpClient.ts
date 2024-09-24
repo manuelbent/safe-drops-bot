@@ -31,7 +31,7 @@ class HttpClient {
         return JSON.stringify(data)
     }
 
-    async getUpcoming(): Promise<NikeUpcomingItem[]> {
+    async getUpcomingItems(): Promise<NikeUpcomingItem[]> {
         const items = []
         let path = '/upcoming'
         do {
