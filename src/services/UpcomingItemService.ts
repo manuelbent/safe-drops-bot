@@ -14,7 +14,6 @@ class UpcomingItemService {
     }
 
     async exists(item: NikeUpcomingItem): Promise<boolean> {
-        // rewrite?
         return !!(await upcomingItemRepository.findBy({
             title: item.cover_card.title,
             effectiveStartSellDate: item.effective_start_sell_date

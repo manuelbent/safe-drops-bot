@@ -9,14 +9,10 @@ export default (bot: TelegramBot) => {
     setInterval(async () => {
         try {
             const chats = await chatService.findAll()
-            if (!chats.length) {
-                return
-            }
+            if (!chats.length) return
 
             const feed = await httpClient.getFeed()
-            if (!feed.match(/shock/gi)) {
-                return
-            }
+            if (!feed.match(/shock/gi)) return
 
             for (const { id } of chats) {
                 await bot.sendMessage(id, 'It smells like a SHOCK DROP! 🚨 Open the SNKRS app now!')

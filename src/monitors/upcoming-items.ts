@@ -5,20 +5,16 @@ import httpClient from '../utils/HttpClient'
 import upcomingItemService from '../services/UpcomingItemService'
 import logger from '../utils/logger'
 
-// check for new upcoming items every 5 minutes
+// check for new upcoming items every minute
 export default (bot: TelegramBot) => {
     setInterval(async () => {
         try {
             const chats = await chatService.findAll()
-            if (!chats.length) {
-                return
-            }
+            if (!chats.length) return
 
             const upcomingItems = await httpClient.getUpcomingItems()
             for (const item of upcomingItems) {
-                if (await upcomingItemService.exists(item)) {
-                    continue
-                }
+                if (await upcomingItemService.exists(item)) continue
 
                 const ui = await upcomingItemService.create(item)
                 const details = {
@@ -36,5 +32,5 @@ export default (bot: TelegramBot) => {
         } catch (error) {
             logger.error(error)
         }
-    }, 3000)
+    }, 60000)
 }

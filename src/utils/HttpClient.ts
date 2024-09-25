@@ -1,9 +1,11 @@
-import axios, { Axios } from 'axios'
+import axios, { AxiosError, AxiosInstance } from 'axios'
+import axiosRetry from 'axios-retry'
 
 import { _exec, sleep } from './commands'
+import logger from './logger'
 
 class HttpClient {
-    private client: Axios
+    private readonly client: AxiosInstance
 
     constructor() {
         this.client = axios.create({
@@ -17,13 +19,23 @@ class HttpClient {
             response => response,
             async error => {
                 if (error.response && error.response.status === 403) {
+                    logger.warn('403 detected, restarting VPN...')
                     await _exec('pm2 restart ovpn')
                     await sleep(10)
+                    logger.warn('VPN restarted')
                     return axios(error.config)
                 }
                 return Promise.reject(error)
             }
         )
+
+        axiosRetry(this.client, {
+            retries: 3,
+            retryDelay: axiosRetry.exponentialDelay,
+            retryCondition: (error: AxiosError) => {
+                return axiosRetry.isNetworkOrIdempotentRequestError(error)
+            }
+        })
     }
 
     async getFeed(): Promise<string> {
@@ -32,7 +44,7 @@ class HttpClient {
     }
 
     async getUpcomingItems(): Promise<NikeUpcomingItem[]> {
-        const items = []
+        const items: NikeUpcomingItem[] = []
         let path = '/upcoming'
         do {
             const { data } = await this.client.get(path)
@@ -40,7 +52,7 @@ class HttpClient {
             path = data.pagination.next.href
             await sleep(1)
         } while (path)
-        return items
+        return items.filter(({ products }) => products[0].product_type === 'FOOTWEAR')
     }
 }
 

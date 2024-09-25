@@ -10,6 +10,7 @@ interface NikeUpcomingItem {
     products: [
         {
             style_color: string
+            product_type: string
         }
     ]
 }
