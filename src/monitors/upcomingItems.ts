@@ -1,32 +1,26 @@
-import TelegramBot from 'node-telegram-bot-api'
+import TelegramService from '../services/TelegramService'
 
 import chatService from '../services/ChatService'
 import snkrsService from '../services/SNKRSService'
 import upcomingItemService from '../services/UpcomingItemService'
+
 import logger from '../utils/logger'
 
 // check for new upcoming items every minute
-export default (bot: TelegramBot) => {
+export default (telegramService: TelegramService) => {
     setInterval(async () => {
         try {
             const chats = await chatService.findAll()
             if (!chats.length) return
-
+            // retrieve all upcoming shoes
             const upcomingItems = await snkrsService.getUpcomingItems()
             for (const item of upcomingItems) {
+                // check if the item already exists in the database
                 if (await upcomingItemService.exists(item)) continue
-
+                // store the item in the database
                 const ui = await upcomingItemService.create(item)
-                const details = {
-                    date: `${ui.effectiveStartSellDate.toLocaleString()} (UTC)`,
-                    subtitle: ui.subtitle,
-                    title: `<b>${ui.title}</b>`,
-                    deeplink: `<a href="https://redirect.prizzle.dev/?url=${ui.deeplink}">View on SNKRS</a>`,
-                }
-                const caption = Object.values(details).reduce((acc, curr) => `${acc}\n${curr}`)
-                for (const { id } of chats) {
-                    await bot.sendPhoto(id, ui.imgURL, { caption, parse_mode: 'HTML' })
-                }
+                // send the item to all chats
+                await telegramService.sendUpcomingItem(ui, chats)
             }
         } catch (error) {
             logger.error(error)

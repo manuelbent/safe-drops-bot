@@ -1,13 +1,24 @@
 import axios, { AxiosError, AxiosInstance } from 'axios'
 import axiosRetry from 'axios-retry'
 
-import { _exec, sleep } from '../utils/commands'
+import { exec, sleep } from '../utils/commands'
 
 import logger from '../utils/logger'
 
+/**
+ * @class SNKRSService
+ * @description Service to interact with the SNKRS APIs.
+ */
 class SNKRSService {
+    /**
+     * @property {AxiosInstance} client
+     * @private
+     */
     private readonly client: AxiosInstance
 
+    /**
+     * @constructor
+     */
     constructor() {
         this.client = axios.create({
             baseURL: 'https://snkrs.services.nike.com/snkrs/content/v2/user/app/IT/it',
@@ -21,7 +32,7 @@ class SNKRSService {
             async error => {
                 if (error.response && error.response.status === 403) {
                     logger.warn('403 detected, restarting VPN...')
-                    await _exec('pm2 restart ovpn')
+                    await exec('pm2 restart ovpn')
                     await sleep(10)
                     logger.warn('VPN restarted')
                     return axios(error.config)
@@ -39,15 +50,27 @@ class SNKRSService {
         })
     }
 
+    /**
+     * @method test
+     * @description Check if the SNKRS APIs are reachable.
+     */
     async test(): Promise<void> {
         await this.client.get('/feed')
     }
 
+    /**
+     * @method getFeedItems
+     * @description Fetch the feed items from the SNKRS APIs.
+     */
     async getFeedItems(): Promise<NikeFeedItem[]> {
         const { data: { items } } = await this.client.get('/feed')
         return items.filter(({ type }: NikeFeedItem) => type === 'product-card' || type === 'pass-card')
     }
 
+    /**
+     * @method getUpcomingItems
+     * @description Fetch the upcoming items from the SNKRS APIs.
+     */
     async getUpcomingItems(): Promise<NikeUpcomingItem[]> {
         const items: NikeUpcomingItem[] = []
         let path = '/upcoming'

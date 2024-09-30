@@ -2,7 +2,15 @@ import UpcomingItem from '../models/UpcomingItem'
 
 import upcomingItemRepository from '../repositories/UpcomingItemRepository'
 
+/**
+ * @class UpcomingItemService
+ */
 class UpcomingItemService {
+    /**
+     * @description Store a new upcoming item in the database.
+     * @param {NikeUpcomingItem} data
+     * @returns {Promise<UpcomingItem>}
+     */
     async create(data: NikeUpcomingItem): Promise<UpcomingItem> {
         return upcomingItemRepository.create({
             title: data.cover_card.title,
@@ -13,6 +21,11 @@ class UpcomingItemService {
         })
     }
 
+    /**
+     * @description Check if an upcoming item already exists in the database.
+     * @param {NikeUpcomingItem} item
+     * @returns {Promise<boolean>}
+     */
     async exists(item: NikeUpcomingItem): Promise<boolean> {
         return !!(await upcomingItemRepository.findBy({
             title: item.cover_card.title,

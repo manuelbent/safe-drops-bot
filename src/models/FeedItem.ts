@@ -31,6 +31,7 @@ FeedItem.init(
         imgURL: {
             type: DataTypes.STRING,
             allowNull: false,
+            field: 'img_url',
         },
         effectiveStartSellDate: {
             type: DataTypes.DATE,

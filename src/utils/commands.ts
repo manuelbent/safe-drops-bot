@@ -1,12 +1,6 @@
 import { promisify } from 'node:util'
-import { exec } from 'node:child_process'
+import { exec as e } from 'node:child_process'
 
-// make exec promise based
-const _exec = promisify(exec)
+export const exec = promisify(e)
 
-const sleep = (s: number) => new Promise(resolve => setTimeout(resolve, s * 1000))
-
-export {
-    _exec,
-    sleep
-}
+export const sleep = (s: number) => new Promise(resolve => setTimeout(resolve, s * 1000))
