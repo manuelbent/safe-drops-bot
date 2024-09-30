@@ -59,15 +59,6 @@ class SNKRSService {
     }
 
     /**
-     * @method getFeedItems
-     * @description Fetch the feed items from the SNKRS APIs.
-     */
-    async getFeedItems(): Promise<NikeFeedItem[]> {
-        const { data: { items } } = await this.client.get('/feed')
-        return items.filter(({ type }: NikeFeedItem) => type === 'product-card' || type === 'pass-card')
-    }
-
-    /**
      * @method getUpcomingItems
      * @description Fetch the upcoming items from the SNKRS APIs.
      */

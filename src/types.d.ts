@@ -20,21 +20,3 @@ interface NikeUpcomingItem {
         },
     ]
 }
-
-interface NikeFeedItem {
-    type: 'product-card' | 'pass-card'
-    title: string
-    cover_card: {
-        square_image: {
-            url: string
-        }
-    }
-    products?: [
-        {
-            style_color: string
-            product_type: string
-        }
-    ]
-    reserve_start?: Date
-    reserve_end?: Date
-}

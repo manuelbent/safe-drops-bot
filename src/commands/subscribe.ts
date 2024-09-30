@@ -10,7 +10,7 @@ export default (bot: TelegramBot) => async ({ chat }: Message) => {
     // subscribe the chat
     try {
         await chatService.create(chat)
-        await bot.sendMessage(chat.id, 'Alright! I will notify you when a SHOCK DROP is happening!')
+        await bot.sendMessage(chat.id, 'Alright! I will keep you updated with the latest news!')
         await bot.sendMessage(chat.id, 'To unsubscribe, type /unsubscribe.')
         logger.info(`Chat ${chat.id} subscribed`)
     } catch (error) {

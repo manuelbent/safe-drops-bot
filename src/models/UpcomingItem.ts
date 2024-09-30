@@ -8,7 +8,7 @@ class UpcomingItem extends Model {
     public subtitle!: string
     public effectiveStartSellDate!: Date
     public imgURL!: string
-    public deeplink?: string
+    public styleColor!: string
 }
 
 UpcomingItem.init(
@@ -36,9 +36,10 @@ UpcomingItem.init(
             allowNull: false,
             field: 'img_url',
         },
-        deeplink: {
+        styleColor: {
             type: DataTypes.STRING,
             allowNull: false,
+            field: 'style_color',
         }
     },
     {
