@@ -6,8 +6,8 @@ import unsubscribe from './commands/unsubscribe'
 import status from './commands/status'
 import help from './commands/help'
 
-import shockDrops from './monitors/shock-drops'
-import upcomingItems from './monitors/upcoming-items'
+import feedItems from './monitors/feedItems'
+import upcomingItems from './monitors/upcomingItems'
 
 // initialize bot
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN!, { polling: true })
@@ -20,5 +20,5 @@ bot.onText(/\/status/, status(bot))
 bot.onText(/\/help/, help(bot))
 
 // start monitors
-shockDrops(bot)
+feedItems(bot)
 upcomingItems(bot)

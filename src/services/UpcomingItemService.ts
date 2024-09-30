@@ -8,7 +8,7 @@ class UpcomingItemService {
             title: data.cover_card.title,
             subtitle: data.cover_card.subtitle,
             effectiveStartSellDate: data.effective_start_sell_date,
-            imgURL: data.cover_card.square_image.url,
+            imgURL: data.products[0].assets.find(({ view }) => view === 'pair_image')!.url,
             deeplink: `snkrs://product/${data.products[0].style_color}`
         })
     }

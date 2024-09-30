@@ -1,10 +1,11 @@
 import axios, { AxiosError, AxiosInstance } from 'axios'
 import axiosRetry from 'axios-retry'
 
-import { _exec, sleep } from './commands'
-import logger from './logger'
+import { _exec, sleep } from '../utils/commands'
 
-class HttpClient {
+import logger from '../utils/logger'
+
+class SNKRSService {
     private readonly client: AxiosInstance
 
     constructor() {
@@ -38,9 +39,13 @@ class HttpClient {
         })
     }
 
-    async getFeed(): Promise<string> {
-        const { data } = await this.client.get('/feed')
-        return JSON.stringify(data)
+    async test(): Promise<void> {
+        await this.client.get('/feed')
+    }
+
+    async getFeedItems(): Promise<NikeFeedItem[]> {
+        const { data: { items } } = await this.client.get('/feed')
+        return items.filter(({ type }: NikeFeedItem) => type === 'product-card' || type === 'pass-card')
     }
 
     async getUpcomingItems(): Promise<NikeUpcomingItem[]> {
@@ -56,4 +61,4 @@ class HttpClient {
     }
 }
 
-export default new HttpClient()
+export default new SNKRSService()

@@ -1,7 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api'
 
 import chatService from '../services/ChatService'
-import httpClient from '../utils/HttpClient'
+import snkrsService from '../services/SNKRSService'
 import upcomingItemService from '../services/UpcomingItemService'
 import logger from '../utils/logger'
 
@@ -12,7 +12,7 @@ export default (bot: TelegramBot) => {
             const chats = await chatService.findAll()
             if (!chats.length) return
 
-            const upcomingItems = await httpClient.getUpcomingItems()
+            const upcomingItems = await snkrsService.getUpcomingItems()
             for (const item of upcomingItems) {
                 if (await upcomingItemService.exists(item)) continue
 
@@ -24,7 +24,6 @@ export default (bot: TelegramBot) => {
                     deeplink: `<a href="https://redirect.prizzle.dev/?url=${ui.deeplink}">View on SNKRS</a>`,
                 }
                 const caption = Object.values(details).reduce((acc, curr) => `${acc}\n${curr}`)
-
                 for (const { id } of chats) {
                     await bot.sendPhoto(id, ui.imgURL, { caption, parse_mode: 'HTML' })
                 }
