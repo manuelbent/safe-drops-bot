@@ -8,16 +8,16 @@ import upcomingItemRepository from '../repositories/UpcomingItemRepository'
 class UpcomingItemService {
     /**
      * @description Store a new upcoming item in the database.
-     * @param {NikeUpcomingItem} data
+     * @param {NikeUpcomingItem} item
      * @returns {Promise<UpcomingItem>}
      */
-    async create(data: NikeUpcomingItem): Promise<UpcomingItem> {
+    async create(item: NikeUpcomingItem): Promise<UpcomingItem> {
         return upcomingItemRepository.create({
-            title: data.cover_card.title,
-            subtitle: data.cover_card.subtitle,
-            effectiveStartSellDate: data.effective_start_sell_date,
-            imgURL: data.products[0].assets.find(({ view }) => view === 'pair_image')!.url,
-            styleColor: data.products[0].style_color
+            title: item.cover_card.title,
+            subtitle: item.cover_card.subtitle,
+            effectiveStartSellDate: item.effective_start_sell_date,
+            imgURL: item.products[0].assets.find(({ view }) => view === 'pair_image')!.url,
+            styleColor: item.products[0].style_color
         })
     }
 

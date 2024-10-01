@@ -1,7 +1,8 @@
-import axios, { AxiosError, AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
 import axiosRetry from 'axios-retry'
 
 import { exec, sleep } from '../utils/commands'
+import { SNKRS_API_BASE_URL, USER_AGENT } from '../utils/constants'
 
 import logger from '../utils/logger'
 
@@ -20,12 +21,7 @@ class SNKRSService {
      * @constructor
      */
     constructor() {
-        this.client = axios.create({
-            baseURL: 'https://snkrs.services.nike.com/snkrs/content/v2/user/app/IT/it',
-            headers: {
-                'User-Agent': 'PostmanRuntime/7.26.8',
-            }
-        })
+        this.client = axios.create({ baseURL: SNKRS_API_BASE_URL, headers: { 'User-Agent': USER_AGENT } })
 
         this.client.interceptors.response.use(
             response => response,
@@ -61,6 +57,7 @@ class SNKRSService {
     /**
      * @method getUpcomingItems
      * @description Fetch the upcoming items from the SNKRS APIs.
+     * @returns {Promise<NikeUpcomingItem[]>}
      */
     async getUpcomingItems(): Promise<NikeUpcomingItem[]> {
         const items: NikeUpcomingItem[] = []
@@ -71,7 +68,17 @@ class SNKRSService {
             path = data.pagination.next.href
             await sleep(1)
         } while (path)
-        return items.filter(({ products }) => products[0].product_type === 'FOOTWEAR')
+        return items
+    }
+
+    /**
+     * @method getFeedItems
+     * @description Fetch the feed items from the SNKRS APIs.
+     * @returns {Promise<NikeFeedItem[]>}
+     */
+    async getFeedItems(): Promise<NikeFeedItem[]> {
+        const { data: { items } }: AxiosResponse<{ items: NikeFeedItem[] }> = await this.client.get('/feed')
+        return items
     }
 }
 

@@ -20,3 +20,20 @@ interface NikeUpcomingItem {
         },
     ]
 }
+
+interface NikeFeedItem {
+    analytics: {
+        hash_key: string
+    }
+    type: string
+    title: string
+    cover_card: {
+        square_image: {
+            url: string
+        }
+    }
+    valid_date?: Date
+    effective_start_sell_date?: Date
+    reserve_start?: Date
+    reserve_end?: Date
+}
