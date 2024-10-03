@@ -10,7 +10,6 @@ export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
             { command: '/start', description: 'start interacting with the bot' },
             { command: '/subscribe', description: 'subscribe to notifications' },
             { command: '/unsubscribe', description: 'unsubscribe from notifications' },
-            { command: '/status', description: 'check subscription and bot status' },
             { command: '/help', description: 'show this help message' },
         ]
         const text = commands.reduce((acc, { command, description }) => `${ acc }${ command } - ${ description }\n`, '')

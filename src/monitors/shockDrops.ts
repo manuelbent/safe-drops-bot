@@ -3,12 +3,13 @@ import TelegramService from '../services/TelegramService'
 import chatService from '../services/ChatService'
 import snkrsService from '../services/SNKRSService'
 import feedItemService from '../services/FeedItemService'
+import ocrSpaceService from '../services/OCRSpaceService'
 
 import logger from '../utils/logger'
 
-import { FEED_ITEM_TYPES, INTERVAL } from '../utils/constants'
+import { INTERVAL, PRODUCT_CARD } from '../utils/constants'
 
-// check for new passes etc. in feed every minute
+// check for new passes in feed every minute
 export default (telegramService: TelegramService) => {
     setInterval(async () => {
         try {
@@ -17,14 +18,18 @@ export default (telegramService: TelegramService) => {
             // retrieve all feed items
             const feedItems = await snkrsService.getFeedItems()
             for (const item of feedItems) {
-                // check if it's a pass
-                if (!FEED_ITEM_TYPES[item.type]) continue
+                // check if it's a product card
+                if (item.type !== PRODUCT_CARD) continue
                 // check if the item already exists in the database
                 if (await feedItemService.exists(item)) continue
                 // store the item in the database
                 const fi = await feedItemService.create(item)
+                // parse the image and extract text
+                const text = await ocrSpaceService.parseImage(fi.imgURL)
+                // if the text does not contain "shock", skip
+                if (!text.match(/shock/gi)) return
                 // send the item to all chats
-                await telegramService.sendFeedItem(fi, chats)
+                await telegramService.sendShockDropCard(fi, chats)
             }
         } catch (error) {
             logger.error(error)

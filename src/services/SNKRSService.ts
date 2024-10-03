@@ -49,6 +49,7 @@ class SNKRSService {
     /**
      * @method test
      * @description Check if the SNKRS APIs are reachable.
+     * @returns {Promise<void>}
      */
     async test(): Promise<void> {
         await this.client.get('/feed')

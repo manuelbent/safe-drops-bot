@@ -37,3 +37,11 @@ interface NikeFeedItem {
     reserve_start?: Date
     reserve_end?: Date
 }
+
+interface OCRSpaceResponse {
+    ParsedResults: [
+        {
+            ParsedText: string
+        }
+    ]
+}

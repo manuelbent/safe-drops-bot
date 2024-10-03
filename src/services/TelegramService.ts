@@ -42,12 +42,12 @@ class TelegramService {
     }
 
     /**
-     * @method sendFeedItem
+     * @method sendPassCard
      * @param {FeedItem} fi
      * @param {Chat[]} chats
      * @returns {Promise<void>}
      */
-    async sendFeedItem(fi: FeedItem, chats: Chat[]): Promise<void> {
+    async sendPassCard(fi: FeedItem, chats: Chat[]): Promise<void> {
         const details = {} as Record<string, string>
         if (fi.effectiveStartSellDate) details.date = `${fi.effectiveStartSellDate.toLocaleString()} (UTC)`
         if (fi.reserveStart) details.from = `from: ${fi.reserveStart.toLocaleString()} (UTC)`
@@ -56,6 +56,20 @@ class TelegramService {
         const caption = Object.values(details).reduce((acc, curr) => `${acc}\n${curr}`)
         for (const { id } of chats) {
             await this.bot.sendPhoto(id, fi.imgURL, { caption, parse_mode: 'HTML' })
+        }
+    }
+
+    /**
+     * @method sendShockDropCard
+     * @param {FeedItem} fi
+     * @param {Chat[]} chats
+     * @returns {Promise<void>}
+     */
+    async sendShockDropCard(fi: FeedItem, chats: Chat[]): Promise<void> {
+        for (const { id } of chats) {
+            await this.bot.sendMessage(id, 'It smells like a shock drop! 🚨')
+            await this.bot.sendPhoto(id, fi.imgURL)
+            await this.bot.sendMessage(id, 'Check it out on SNKRS now!')
         }
     }
 }

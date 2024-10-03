@@ -6,7 +6,8 @@ import unsubscribe from './commands/unsubscribe'
 import status from './commands/status'
 import help from './commands/help'
 
-import feedItems from './monitors/feedItems'
+import passes from './monitors/passes'
+import shockDrops from './monitors/shockDrops'
 import upcomingItems from './monitors/upcomingItems'
 
 import TelegramService from './services/TelegramService'
@@ -25,5 +26,6 @@ bot.onText(/\/status/, status(bot))
 bot.onText(/\/help/, help(bot))
 
 // start monitors
-feedItems(telegramService)
+passes(telegramService)
+shockDrops(telegramService)
 upcomingItems(telegramService)
