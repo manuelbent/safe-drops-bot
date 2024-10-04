@@ -13,6 +13,7 @@ class UpcomingItemService {
      */
     async create(item: NikeUpcomingItem): Promise<UpcomingItem> {
         return upcomingItemRepository.create({
+            hashKey: item.analytics.hash_key,
             title: item.cover_card.title,
             subtitle: item.cover_card.subtitle,
             effectiveStartSellDate: item.effective_start_sell_date,
@@ -27,10 +28,7 @@ class UpcomingItemService {
      * @returns {Promise<boolean>}
      */
     async exists(item: NikeUpcomingItem): Promise<boolean> {
-        return !!(await upcomingItemRepository.findBy({
-            title: item.cover_card.title,
-            effectiveStartSellDate: item.effective_start_sell_date
-        })).length
+        return !!(await upcomingItemRepository.findBy({ hashKey: item.analytics.hash_key })).length
     }
 }
 

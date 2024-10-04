@@ -1,5 +1,8 @@
 import { Attributes, CreationAttributes, Model, ModelStatic, WhereAttributeHashValue } from 'sequelize'
 
+/**
+ * @class BaseRepository
+ */
 class BaseRepository<T extends Model> {
     private model: ModelStatic<T>
 

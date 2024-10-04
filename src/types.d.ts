@@ -1,4 +1,7 @@
 interface NikeUpcomingItem {
+    analytics: {
+        hash_key: string
+    }
     effective_start_sell_date: Date
     cover_card: {
         square_image: {

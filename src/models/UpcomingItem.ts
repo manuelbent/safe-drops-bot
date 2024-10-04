@@ -4,6 +4,7 @@ import sequelize from '../../database/sequelize'
 
 class UpcomingItem extends Model {
     public id!: number
+    public hashKey!: string
     public title!: string
     public subtitle!: string
     public effectiveStartSellDate!: Date
@@ -17,6 +18,11 @@ UpcomingItem.init(
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
+        },
+        hashKey: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            field: 'hash_key',
         },
         title: {
             type: DataTypes.STRING,
