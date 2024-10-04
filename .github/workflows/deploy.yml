@@ -1,0 +1,29 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Ionos server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Add SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.IONOS_SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Ionos server
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.IONOS_USER }}@${{ secrets.IONOS_HOST }} << 'EOF'
+          cd /var/www/safe-drops/bot
+          git pull
+          npm ci
+          npm run build
+          npm run migrate:up
+          pm2 restart ecosystem.config.js
+          EOF
