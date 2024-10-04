@@ -1,11 +1,11 @@
-name: Deploy
+name: Deploy to Ionos
 
 on:
   workflow_dispatch:
 
 jobs:
   deploy:
-    name: Deploy to Ionos server
+    name: Deploy to Ionos
     runs-on: ubuntu-latest
 
     steps:
