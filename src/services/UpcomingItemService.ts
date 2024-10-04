@@ -28,7 +28,10 @@ class UpcomingItemService {
      * @returns {Promise<boolean>}
      */
     async exists(item: NikeUpcomingItem): Promise<boolean> {
-        return !!(await upcomingItemRepository.findBy({ hashKey: item.analytics.hash_key })).length
+        return !!(await upcomingItemRepository.findBy({
+            title: item.cover_card.title,
+            effectiveStartSellDate: item.effective_start_sell_date
+        })).length
     }
 }
 
