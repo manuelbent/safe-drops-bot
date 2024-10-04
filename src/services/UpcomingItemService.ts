@@ -17,7 +17,7 @@ class UpcomingItemService {
             title: item.cover_card.title,
             subtitle: item.cover_card.subtitle,
             effectiveStartSellDate: item.effective_start_sell_date,
-            imgURL: item.products[0].assets.find(({ view }) => view === 'pair_image')!.url,
+            imgURL: item.cover_card.landscape_image.url,
             styleColor: item.products[0].style_color
         })
     }

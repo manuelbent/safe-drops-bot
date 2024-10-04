@@ -4,6 +4,9 @@ interface NikeUpcomingItem {
     }
     effective_start_sell_date: Date
     cover_card: {
+        landscape_image: {
+            url: string
+        }
         square_image: {
             url: string
         }
