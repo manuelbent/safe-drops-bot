@@ -22,6 +22,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.IONOS_USER }}@${{ secrets.IONOS_HOST }} << 'EOF'
           cd /var/www/safe-drops/bot
           git pull
+          nvm use
           npm ci
           npm run build
           npm run migrate:up
