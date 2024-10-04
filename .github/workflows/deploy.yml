@@ -20,7 +20,7 @@ jobs:
       - name: Deploy to Ionos server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.IONOS_USER }}@${{ secrets.IONOS_HOST }} << 'EOF'
-          cd /var/www/safe-drops/bot
+          cd /var/www/safe-drops-bot
           git pull
           nvm use
           npm ci
