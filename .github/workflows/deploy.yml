@@ -15,7 +15,7 @@ jobs:
       - name: Add SSH key
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.IONOS_SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.IONOS_SSH_KEY }}
 
       - name: Deploy to Ionos server
         run: |
