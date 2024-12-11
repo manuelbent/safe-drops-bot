@@ -14,7 +14,7 @@ export default (telegramService: TelegramService) => {
         try {
             const chats = await chatService.findAll()
             if (!chats.length) return
-            // retrieve all upcoming shoes
+            // retrieve all upcoming items
             const upcomingItems = await snkrsService.getUpcomingItems()
             for (const item of upcomingItems) {
                 // check if it's footwear
