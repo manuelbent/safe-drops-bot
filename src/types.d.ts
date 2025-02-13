@@ -37,6 +37,9 @@ interface NikeFeedItem {
         square_image: {
             url: string
         }
+        portrait_image: {
+            url: string
+        }
     }
     valid_date?: Date
     effective_start_sell_date?: Date

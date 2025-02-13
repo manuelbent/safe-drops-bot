@@ -16,7 +16,7 @@ class FeedItemService {
             hashKey: item.analytics.hash_key,
             type: item.type,
             title: item.title,
-            imgURL: item.cover_card.square_image.url,
+            imgURL: item.cover_card.square_image?.url ?? item.cover_card.portrait_image?.url,
             validDate: item.valid_date,
             effectiveStartSellDate: item.effective_start_sell_date,
             reserveStart: item.reserve_start,
