@@ -25,7 +25,7 @@ class OCRSpaceService {
         })
 
         axiosRetry(this.client, {
-            retries: 3,
+            retries: 1,
             retryDelay: axiosRetry.exponentialDelay,
             retryCondition: (error: AxiosError) => {
                 return axiosRetry.isNetworkOrIdempotentRequestError(error)
