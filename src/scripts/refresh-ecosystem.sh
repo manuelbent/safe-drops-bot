@@ -13,3 +13,6 @@ GATEWAY=$(ip -4 route ls | grep default | grep -Po '(?<=via )(\S+)')
 sudo ip rule add from $SRC_IP table 128
 sudo ip route add table 128 to ${SRC_IP}/32 dev $DEV
 sudo ip route add table 128 default via $GATEWAY
+
+# Restart bot ecosystem
+pm2 restart ecosystem.config.js
