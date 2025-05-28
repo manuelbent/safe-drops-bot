@@ -1,6 +1,6 @@
 export const SNKRS_API_BASE_URL = 'https://snkrs.services.nike.com/snkrs/content/v2/user/app/IT/it'
 
-export const OCR_SPACE_BASE_URL = 'https://api8.ocr.space/parse/image'
+export const OCR_SPACE_BASE_URL = 'https://api.ocr.space/parse/image'
 
 export const USER_AGENT = 'PostmanRuntime/7.26.8'
 
