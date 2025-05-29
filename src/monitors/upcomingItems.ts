@@ -17,10 +17,10 @@ export default (telegramService: TelegramService) => {
             // retrieve all upcoming items
             const upcomingItems = await snkrsService.getUpcomingItems()
             logger.debug(`Upcoming items: ${upcomingItems.length}`)
+            logger.debug(upcomingItems)
             for (const item of upcomingItems) {
-                logger.debug(item.products[0])
                 // check if it's footwear
-                if (!PRODUCT_TYPES[item.products[0].product_type]) continue
+                if (!PRODUCT_TYPES.has(item.products[0].product_type)) continue
                 // check if the item already exists in the database
                 if (await upcomingItemService.exists(item)) continue
                 // store the item in the database
