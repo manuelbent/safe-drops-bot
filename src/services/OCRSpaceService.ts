@@ -19,9 +19,6 @@ class OCRSpaceService {
     constructor() {
         this.client = axios.create({
             baseURL: OCR_SPACE_BASE_URL,
-            headers: {
-                apikey: process.env.OCR_SPACE_API_KEY
-            }
         })
 
         axiosRetry(this.client, {
@@ -39,6 +36,8 @@ class OCRSpaceService {
      * @returns {Promise<void>}
      */
     async test(): Promise<void> {
+        const formData = new FormData()
+        formData.append('apikey', process.env.OCR_SPACE_API_KEY!)
         await this.client.post('/')
     }
 
@@ -49,6 +48,7 @@ class OCRSpaceService {
      */
     async parseImage(url: string): Promise<string> {
         const formData = new FormData()
+        formData.append('apikey', process.env.OCR_SPACE_API_KEY!)
         formData.append('url', url)
         formData.append('language', 'eng')
         formData.append('FileType', '.Auto')
