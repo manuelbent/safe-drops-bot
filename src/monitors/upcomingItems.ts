@@ -16,14 +16,18 @@ export default (telegramService: TelegramService) => {
             if (!chats.length) return
             // retrieve all upcoming items
             const upcomingItems = await snkrsService.getUpcomingItems()
+            logger.debug(`Upcoming items: ${upcomingItems.length}`)
             for (const item of upcomingItems) {
+                logger.debug(item.products[0])
                 // check if it's footwear
                 if (!PRODUCT_TYPES[item.products[0].product_type]) continue
                 // check if the item already exists in the database
                 if (await upcomingItemService.exists(item)) continue
                 // store the item in the database
+                logger.debug(`Storing upcoming item: ${item.products[0].style_color}`)
                 const ui = await upcomingItemService.create(item)
                 // send the item to all chats
+                logger.debug(`Sending upcoming item: ${ui.styleColor}`)
                 await telegramService.sendUpcomingItem(ui, chats)
             }
         } catch (error) {

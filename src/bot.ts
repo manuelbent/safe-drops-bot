@@ -5,6 +5,7 @@ import subscribe from './commands/subscribe'
 import unsubscribe from './commands/unsubscribe'
 import status from './commands/status'
 import help from './commands/help'
+import debug from './commands/debug'
 
 import passes from './monitors/passes'
 import shockDrops from './monitors/shockDrops'
@@ -24,6 +25,7 @@ bot.onText(/\/subscribe/, subscribe(bot))
 bot.onText(/\/unsubscribe/, unsubscribe(bot))
 bot.onText(/\/status/, status(bot))
 bot.onText(/\/help/, help(bot))
+bot.onText(/\/debug:(on|off)/, debug(bot))
 
 // start monitors
 passes(telegramService)
