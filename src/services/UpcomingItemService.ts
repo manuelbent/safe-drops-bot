@@ -1,5 +1,6 @@
 import UpcomingItem from '../models/UpcomingItem'
 
+import logger from '../utils/logger'
 import upcomingItemRepository from '../repositories/UpcomingItemRepository'
 
 /**
@@ -28,10 +29,15 @@ class UpcomingItemService {
      * @returns {Promise<boolean>}
      */
     async exists(item: NikeUpcomingItem): Promise<boolean> {
-        return !!(await upcomingItemRepository.findBy({
+        const [storedItem] = await upcomingItemRepository.findBy({
             title: item.cover_card.title,
             effectiveStartSellDate: item.effective_start_sell_date
-        })).length
+        })
+        if (storedItem) {
+            logger.debug(`Upcoming item already exists: ${storedItem.title} - ${storedItem.effectiveStartSellDate}`)
+            return true
+        }
+        return false
     }
 }
 
