@@ -10,6 +10,7 @@ import debug from './commands/debug'
 import passes from './monitors/passes'
 import shockDrops from './monitors/shockDrops'
 import upcomingItems from './monitors/upcomingItems'
+import healthcheck from './monitors/healthcheck'
 
 import TelegramService from './services/TelegramService'
 
@@ -31,3 +32,6 @@ bot.onText(/\/debug:(on|off)/, debug(bot))
 passes(telegramService)
 shockDrops(telegramService)
 upcomingItems(telegramService)
+
+// start healthcheck
+healthcheck()
