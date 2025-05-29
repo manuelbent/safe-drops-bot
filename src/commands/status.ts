@@ -8,8 +8,16 @@ import ocrSpaceService from '../services/OCRSpaceService'
 export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
     try {
         await bot.sendMessage(id, `subscription: ${ await chatService.exists(id) ? 'active' : 'inactive' }`)
-        await bot.sendMessage(id, 'monitoring: ' + await snkrsService.test().then(() => 'operational').catch(() => 'down'))
-        await bot.sendMessage(id, 'parsing: ' + await ocrSpaceService.test().then(() => 'operational').catch(() => 'down'))
+        await bot.sendMessage(id, 'monitoring: ' + await snkrsService.test().then(() => 'operational').catch((error) => {
+            logger.error('Could not reach SNRKS /feed')
+            logger.error(error)
+            return 'down'
+        }))
+        await bot.sendMessage(id, 'parsing: ' + await ocrSpaceService.test().then(() => 'operational').catch((error) => {
+            logger.error('Could not reach OCR Space')
+            logger.error(error)
+            return 'down'
+        }))
     } catch (error) {
         logger.error(`Something went wrong with chat ${ id } status request: ${error}`)
     }
