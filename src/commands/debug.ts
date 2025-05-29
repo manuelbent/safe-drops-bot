@@ -8,6 +8,6 @@ export default (bot: TelegramBot) => async ({ chat: { id } }: Message, match: Re
         logger.level = match[1] === 'on' ? 'debug' : 'info'
         await bot.sendMessage(id, `Debug mode is now ${match[1]}.`)
     } catch (error) {
-        logger.error(`Something went wrong while toggling debug mode.`, error)
+        logger.error(error, `Something went wrong while toggling debug mode.`)
     }
 }

@@ -13,10 +13,10 @@ export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
             { command: '/status', description: 'check the status of the bot' },
             { command: '/help', description: 'show this help message' },
         ]
-        const text = commands.reduce((acc, { command, description }) => `${ acc }${ command } - ${ description }\n`, '')
+        const text = commands.reduce((acc, { command, description }) => `${acc}${command} - ${description}\n`, '')
         await bot.sendMessage(id, text, { parse_mode: 'Markdown' })
         await bot.sendMessage(id, 'Remember, all dates are in UTC. Check your local time zone to properly adjust.')
     } catch (error) {
-        logger.error(`Something went wrong while helping chat ${ id }.`, error)
+        logger.error(error, `Something went wrong while helping chat ${id}.`)
     }
 }

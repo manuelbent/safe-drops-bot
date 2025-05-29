@@ -15,7 +15,7 @@ export default () => {
             await ocrSpaceService.test()
             logger.info('Bot looks healthy.')
         } catch (error) {
-            logger.error('Bot health check failed', error)
+            logger.error(error, 'Bot health check failed')
             logger.info('Attempting to restart VPN...')
             await exec('pm2 restart ovpn')
             await sleep(10)
