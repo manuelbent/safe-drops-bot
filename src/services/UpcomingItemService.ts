@@ -34,7 +34,7 @@ class UpcomingItemService {
             effectiveStartSellDate: item.effective_start_sell_date
         })
         if (storedItem) {
-            logger.debug(`Upcoming item already exists: ${storedItem.title} - ${storedItem.effectiveStartSellDate}`)
+            logger.debug(`Upcoming item (${storedItem.title}, ${storedItem.effectiveStartSellDate}) already exists, skipping.`)
             return true
         }
         return false

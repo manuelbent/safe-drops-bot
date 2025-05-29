@@ -30,7 +30,7 @@ class SNKRSService {
                     logger.warn('403 detected, restarting VPN...')
                     await exec('pm2 restart ovpn')
                     await sleep(10)
-                    logger.warn('VPN restarted')
+                    logger.warn('VPN restarted.')
                     return axios(error.config)
                 }
                 return Promise.reject(error)

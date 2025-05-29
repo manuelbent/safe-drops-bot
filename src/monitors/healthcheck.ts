@@ -10,16 +10,16 @@ import ocrSpaceService from '../services/OCRSpaceService'
 export default () => {
     setInterval(async () => {
         try {
-            logger.info('Starting bot health check...')
+            logger.info('Checking bot health...')
             await snkrsService.test()
             await ocrSpaceService.test()
-            logger.info('Bot operational.')
+            logger.info('Bot looks healthy.')
         } catch (error) {
             logger.error('Bot health check failed', error)
             logger.info('Attempting to restart VPN...')
             await exec('pm2 restart ovpn')
             await sleep(10)
-            logger.info('VPN restarted')
+            logger.info('VPN restarted.')
         }
     }, INTERVAL * 5)
 }
