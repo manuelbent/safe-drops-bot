@@ -11,6 +11,14 @@ $ sudo ip route add table 128 to $(ip route get 1 | grep -Po '(?<=src )(\S+)')/3
 $ sudo ip route add table 128 default via $(ip -4 route ls | grep default | grep -Po '(?<=via )(\S+)')
 ```
 
+These commands handle the inbound and outbound traffic correctly.  
+Summarized:
+```
+1. All traffic originating from the server’s main IP is not affected by the VPN.
+2. Packets sent to the server itself correctly go through the main network interface.
+3. Traffic destined for the internet goes through the main gateway instead of automatically passing through the VPN.
+```
+
 ### Development
 To develop this application, you need to setup a Telegram Bot.
 
