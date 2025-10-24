@@ -4,6 +4,8 @@ import Chat from '../models/Chat'
 import UpcomingItem from '../models/UpcomingItem'
 import FeedItem from '../models/FeedItem'
 
+import logger from '../utils/logger'
+
 /**
  * @class TelegramService
  */
@@ -36,9 +38,13 @@ class TelegramService {
             deeplink: `<a href="https://redirect.prizzle.dev/?url=snkrs://product/${ui.styleColor}">View on SNKRS</a>`,
         }
         const caption = Object.values(details).reduce((acc, curr) => `${acc}\n${curr}`)
-        for (const { id } of chats) {
-            await this.bot.sendPhoto(id, ui.imgURL, { caption, parse_mode: 'HTML' })
-        }
+
+        const promises = chats.map(({ id }) =>
+            this.bot.sendPhoto(id, ui.imgURL, { caption, parse_mode: 'HTML' }).catch(error => {
+                logger.error(error, `Failed to send upcoming item to chat ${id}`)
+            }))
+
+        await Promise.all(promises)
     }
 
     /**
@@ -54,9 +60,13 @@ class TelegramService {
         if (fi.reserveEnd) details.to = `to: ${fi.reserveEnd.toLocaleString()} (UTC)`
         details.title = `<b>${fi.title}</b>`
         const caption = Object.values(details).reduce((acc, curr) => `${acc}\n${curr}`)
-        for (const { id } of chats) {
-            await this.bot.sendPhoto(id, fi.imgURL, { caption, parse_mode: 'HTML' })
-        }
+
+        const promises = chats.map(({ id }) =>
+            this.bot.sendPhoto(id, fi.imgURL, { caption, parse_mode: 'HTML' }).catch(error => {
+                logger.error(error, `Failed to send pass card to chat ${id}`)
+            }))
+
+        await Promise.all(promises)
     }
 
     /**
@@ -66,11 +76,15 @@ class TelegramService {
      * @returns {Promise<void>}
      */
     async sendShockDropCard(fi: FeedItem, chats: Chat[]): Promise<void> {
-        for (const { id } of chats) {
-            await this.bot.sendMessage(id, 'It smells like a shock drop! 🚨')
-            await this.bot.sendPhoto(id, fi.imgURL)
-            await this.bot.sendMessage(id, 'Check it out on SNKRS now!')
-        }
+        const promises = chats.map(({ id }) => {
+                const caption = `<b>Smells like a Shock Drop! 🚨\nHurry up and check it out on SNKRS!</b>`
+                this.bot.sendPhoto(id, fi.imgURL, { caption, parse_mode: 'HTML' }).catch(error => {
+                    logger.error(error, `Failed to send shock drop card to chat ${id}`)
+                })
+            }
+        )
+
+        await Promise.all(promises)
     }
 }
 
