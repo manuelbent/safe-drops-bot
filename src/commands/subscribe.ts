@@ -6,7 +6,11 @@ import marketService from '../services/MarketService'
 
 export default (bot: TelegramBot) => async ({ chat }: Message) => {
     // if the chat is already subscribed, there is no need to subscribe again
-    if (await chatService.exists(chat.id)) return
+    if (await chatService.exists(chat.id)) {
+        await bot.sendMessage(chat.id, 'You are already subscribed! 🙂‍↕️')
+        await bot.sendMessage(chat.id, 'Use /unsubscribe if you have changed your mind.')
+        return
+    }
 
     try {
         // load available markets
@@ -17,17 +21,22 @@ export default (bot: TelegramBot) => async ({ chat }: Message) => {
             return
         }
 
+        await bot.sendMessage(chat.id, 'Nice. 🙂‍↕️')
+
         // create inline keyboard with market options
-        const keyboard = {
-            inline_keyboard: markets.map(market => ([
-                { text: `${market.emoji} ${market.label}`, callback_data: `subscribe_${market.id}` }
+        const markup = {
+            inline_keyboard: markets.map(({ emoji, label, id }) => ([
+                {
+                    text: `${emoji} ${label}`,
+                    callback_data: `subscribe_${id}`
+                }
             ]))
         }
 
         await bot.sendMessage(
             chat.id,
-            'Please choose your market:',
-            { reply_markup: keyboard }
+            'What market are you interested in?',
+            { reply_markup: markup }
         )
     } catch (error) {
         logger.error(error, `Something went wrong while loading markets for chat ${chat.id}.`)
