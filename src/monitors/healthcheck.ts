@@ -10,10 +10,8 @@ import ocrSpaceService from '../services/OCRSpaceService'
 export default () => {
     setInterval(async () => {
         try {
-            logger.info('Checking bot health...')
             await snkrsService.test()
             await ocrSpaceService.test()
-            logger.info('Bot looks healthy.')
         } catch (error) {
             logger.error(error, 'Bot health check failed')
             logger.info('Attempting to restart VPN...')
