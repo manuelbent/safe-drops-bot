@@ -5,7 +5,11 @@ import chatService from '../services/ChatService'
 
 export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
     // if the chat is not subscribed, there is no need to unsubscribe
-    if (!(await chatService.exists(id))) return
+    if (!(await chatService.exists(id))) {
+        await bot.sendMessage(id, 'You are not subscribed yet!️ 🙂‍↔️')
+        await bot.sendMessage(id, 'Use /subscribe if you want to enable notifications.')
+        return
+    }
 
     // unsubscribe the chat
     try {
