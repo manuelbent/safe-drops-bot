@@ -9,6 +9,10 @@ class ChatService {
         return chatRepository.findAll()
     }
 
+    async findByMarketId(marketId: number): Promise<Chat[]> {
+        return chatRepository.findBy({ marketId })
+    }
+
     async create(chat: TelegramChat, marketId?: number): Promise<Chat> {
         return chatRepository.create({ ...chat, marketId })
     }

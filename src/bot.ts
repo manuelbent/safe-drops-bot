@@ -1,5 +1,9 @@
 import TelegramBot from 'node-telegram-bot-api'
 
+import logger from './utils/logger'
+
+import TelegramService from './services/TelegramService'
+
 import start from './commands/start'
 import subscribe from './commands/subscribe'
 import unsubscribe from './commands/unsubscribe'
@@ -8,12 +12,7 @@ import help from './commands/help'
 import debug from './commands/debug'
 import callback from './commands/callback'
 
-import passes from './monitors/passes'
-import shockDrops from './monitors/shockDrops'
-import upcomingItems from './monitors/upcomingItems'
-import healthcheck from './monitors/healthcheck'
-
-import TelegramService from './services/TelegramService'
+import { initializeMonitors } from './monitors/initializeMonitors'
 
 // initialize bot
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN!, { polling: true })
@@ -32,10 +31,5 @@ bot.onText(/\/debug:(on|off)/, debug(bot))
 // handle callbacks
 bot.on('callback_query', callback(bot))
 
-// start monitors
-passes(telegramService)
-shockDrops(telegramService)
-upcomingItems(telegramService)
-
-// start healthcheck
-healthcheck()
+// initialize monitors for all markets
+initializeMonitors(telegramService).catch(logger.error)
