@@ -7,6 +7,7 @@ class Market extends Model {
     public code!: string
     public label!: string
     public emoji!: string
+    public adjective!: string
     public apiUrl!: string
     public createdAt!: Date
     public updatedAt!: Date
@@ -31,6 +32,10 @@ Market.init(
         emoji: {
             type: DataTypes.STRING(10),
             allowNull: true,
+        },
+        adjective: {
+            type: DataTypes.STRING,
+            allowNull: false,
         },
         apiUrl: {
             type: DataTypes.STRING,

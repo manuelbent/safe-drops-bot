@@ -23,6 +23,10 @@ module.exports = {
                 type: Sequelize.STRING(10),
                 allowNull: true,
             },
+            adjective: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
             api_url: {
                 type: Sequelize.STRING,
                 allowNull: false,
