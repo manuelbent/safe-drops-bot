@@ -7,10 +7,8 @@ export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
         await bot.sendMessage(id, `Don't panic, everything is going to be alright.`)
         await bot.sendMessage(id, 'Here are the commands you can use:')
         const commands = [
-            { command: '/start', description: 'start interacting with the bot' },
             { command: '/subscribe', description: 'subscribe to notifications' },
             { command: '/unsubscribe', description: 'unsubscribe from notifications' },
-            { command: '/status', description: 'check the status of the bot' },
             { command: '/help', description: 'show this help message' },
         ]
         const text = commands.reduce((acc, { command, description }) => `${acc}${command} - ${description}\n`, '')
