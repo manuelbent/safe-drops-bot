@@ -45,7 +45,7 @@ class Monitor {
                 if (error.response && error.response.status === 403) {
                     logger.warn(`403 detected for market ${this.market.code}, restarting VPN...`)
                     await exec('pm2 restart ovpn')
-                    await sleep(10)
+                    await sleep(30)
                     logger.warn('VPN restarted.')
                     return axios(error.config)
                 }
