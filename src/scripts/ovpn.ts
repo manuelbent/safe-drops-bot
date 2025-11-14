@@ -4,7 +4,7 @@ import logger from '../utils/logger'
 
 (async () => {
     // list all the italian OpenVPN config files
-    const { stdout: list } = await exec('ls /etc/openvpn/ovpn_tcp | grep it')
+    const { stdout: list } = await exec('ls /etc/openvpn/ovpn_tcp')
     // get an array of string out of the stdout
     const configs = list.split('\n')
     // randomly select a VPN config file
