@@ -12,6 +12,7 @@ import callback from './commands/callback'
 
 import initializeMonitors from './processes/initializeMonitors'
 import initializeHealthcheck from './processes/initializeHealthcheck'
+import initializeBackupCron from './processes/initializeBackupCron'
 
 import logger from './utils/logger'
 
@@ -37,3 +38,6 @@ initializeMonitors(telegramService).catch(logger.error)
 
 // initialize healthcheck monitoring system
 initializeHealthcheck().catch(logger.error)
+
+// initialize database backup cronjob
+initializeBackupCron(telegramService).catch(logger.error)

@@ -1,17 +1,18 @@
-FROM node:20-alpine
+FROM node:22-alpine
 
-# Install dependencies
-RUN apk add --no-cache python3 make gcc g++
+RUN apk add --no-cache python3 make gcc g++ sqlite
 
 WORKDIR /app
 
-COPY database ./database
-COPY src ./src
-COPY .env ./
 COPY package*.json ./
 COPY tsconfig.json ./
 
 RUN npm install
+
+COPY database ./database
+COPY src ./src
+COPY .env ./
+
 RUN npm run migrate:up
 RUN npm run build
 
