@@ -17,7 +17,7 @@ export default async (telegramService: TelegramService): Promise<void> => {
 
         for (const market of markets) {
             const monitor = new Monitor(market, telegramService)
-            // await monitor.test()
+            await monitor.test()
             monitor.start()
         }
 
