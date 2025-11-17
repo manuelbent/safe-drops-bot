@@ -4,12 +4,13 @@ import axiosRetry from 'axios-retry'
 import TelegramService from '../services/TelegramService'
 import Market from '../models/Market'
 
+import vpnService from '../services/VPNService'
 import chatService from '../services/ChatService'
 import feedItemService from '../services/FeedItemService'
 import ocrSpaceService from '../services/OCRSpaceService'
 import upcomingItemService from '../services/UpcomingItemService'
 
-import { exec, sleep } from '../utils/commands'
+import { sleep } from '../utils/commands'
 import { USER_AGENT, INTERVAL, PRODUCT_TYPES, PRODUCT_CARD, PASS_CARD } from '../utils/constants'
 
 import logger from '../utils/logger'
@@ -43,10 +44,7 @@ class Monitor {
             response => response,
             async error => {
                 if (error.response && error.response.status === 403) {
-                    logger.warn(`403 detected for market ${this.market.code}, restarting VPN...`)
-                    await exec('pm2 restart ovpn')
-                    await sleep(30)
-                    logger.warn('VPN restarted.')
+                    await vpnService.restart()
                     return axios(error.config)
                 }
                 return Promise.reject(error)

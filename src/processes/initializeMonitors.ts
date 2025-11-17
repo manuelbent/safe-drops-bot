@@ -10,7 +10,7 @@ import logger from '../utils/logger'
 export default async (telegramService: TelegramService): Promise<void> => {
     try {
         const markets = await marketService.findAll()
-        if (markets.length === 0) {
+        if (!markets.length) {
             logger.warn('No markets found in database. Monitors will not be started.')
             return
         }
