@@ -1,4 +1,4 @@
-import { Attributes, CreationAttributes, Model, ModelStatic, WhereAttributeHashValue } from 'sequelize'
+import { Attributes, CreationAttributes, Model, ModelStatic, WhereAttributeHashValue, Includeable } from 'sequelize'
 
 /**
  * @class BaseRepository
@@ -30,8 +30,8 @@ class BaseRepository<T extends Model> {
         return this.model.findAll({ where })
     }
 
-    async findAll() {
-        return this.model.findAll()
+    async findAll(include?: Includeable[]) {
+        return this.model.findAll({ include })
     }
 }
 

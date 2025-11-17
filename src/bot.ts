@@ -8,6 +8,7 @@ import unsubscribe from './commands/unsubscribe'
 import status from './commands/status'
 import help from './commands/help'
 import debug from './commands/debug'
+import dump from './commands/dump'
 import callback from './commands/callback'
 
 import initializeMonitors from './processes/initializeMonitors'
@@ -28,6 +29,7 @@ bot.onText(/\/unsubscribe/, unsubscribe(bot))
 bot.onText(/\/status/, status(bot))
 bot.onText(/\/help/, help(bot))
 bot.onText(/\/debug:(on|off)/, debug(bot))
+bot.onText(/\/dump/, dump(bot))
 
 // handle callbacks
 bot.on('callback_query', callback(bot))

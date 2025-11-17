@@ -1,11 +1,13 @@
 import { Model, DataTypes } from 'sequelize'
 
 import sequelize from '../../database/sequelize'
+import Market from './Market'
 
 class Chat extends Model {
     public id!: number
     public marketId!: number | null
     public subscribedAt!: Date
+    public market?: Market
 }
 
 Chat.init(
@@ -33,5 +35,10 @@ Chat.init(
         timestamps: false,
     }
 )
+
+Chat.belongsTo(Market, {
+    foreignKey: 'marketId',
+    as: 'market',
+})
 
 export default Chat
