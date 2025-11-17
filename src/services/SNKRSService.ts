@@ -23,8 +23,8 @@ class SNKRSService {
             throw new Error('No markets found in database')
         }
 
-        // Test at least one market (preferably the first one)
-        const market = markets[0]
+        // Pick a random market from the markets array
+        const market = markets[Math.floor(Math.random() * markets.length)]
 
         const client: AxiosInstance = axios.create({
             baseURL: market.apiUrl,
