@@ -15,7 +15,7 @@ export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
         if (chats.length) {
             let message = 'chats\n\n'
             chats.forEach((chat, i) => {
-                message += `- index: ${i}\n`
+                message += `- index: ${++i}\n`
                 message += `  chat_id: ${chat.id}\n`
                 message += `  market: ${chat.market!.emoji} ${chat.market!.label}\n`
                 message += `  subscribed_at: ${chat.subscribedAt.toLocaleString()}\n\n`
