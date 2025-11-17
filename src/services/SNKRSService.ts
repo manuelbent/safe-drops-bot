@@ -40,9 +40,9 @@ class SNKRSService {
 
         try {
             await client.get('/feed')
-            logger.debug(`SNKRS API health check passed for market: ${market.label} (${market.code})`)
+            logger.debug(`SNKRS API test passed for market: ${market.label} (${market.code})`)
         } catch (error) {
-            logger.error(error, `SNKRS API health check failed for market: ${market.label} (${market.code})`)
+            logger.error(error, `SNKRS API test failed for market: ${market.label} (${market.code})`)
             throw error
         }
     }
