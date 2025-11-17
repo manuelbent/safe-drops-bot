@@ -12,25 +12,27 @@ export default (bot: TelegramBot) => async ({ chat: { id } }: Message) => {
 
     try {
         const chats = await chatRepository.findAll()
+        if (chats.length) {
+            let message = 'chats\n\n'
+            chats.forEach((chat, i) => {
+                message += `- index: ${i}\n`
+                message += `  chat_id: ${chat.id}\n`
+                message += `  market: ${chat.market!.emoji} ${chat.market!.label}\n`
+                message += `  subscribed_at: ${chat.subscribedAt.toLocaleString()}\n\n`
+            })
+            await bot.sendMessage(id, message)
+        }
+
         const ovpnConfigs = await ovpnConfigRepository.findAll()
-
-        let chatsMessage = 'chats\n\n'
-        chats.forEach(chat => {
-            chatsMessage += `- id: ${chat.id}\n`
-            chatsMessage += `  market: ${chat.market!.emoji} ${chat.market!.label}\n`
-            chatsMessage += `  subscribed_at: ${chat.subscribedAt.toISOString()}\n\n`
-        })
-
-        let ovpnMessage = 'ovpn_configs\n\n'
-        ovpnConfigs.forEach(config => {
-            ovpnMessage += `- id: ${config.id}\n`
-            ovpnMessage += `  config_path: ${config.configPath}\n`
-            ovpnMessage += `  connected_at: ${config.connectedAt.toISOString()}\n\n`
-        })
-
-        // Send messages
-        await bot.sendMessage(id, chatsMessage)
-        await bot.sendMessage(id, ovpnMessage)
+        if (ovpnConfigs.length) {
+            let message = 'ovpn_configs\n\n'
+            ovpnConfigs.forEach(config => {
+                message += `- id: ${config.id}\n`
+                message += `  config_path: ${config.configPath}\n`
+                message += `  connected_at: ${config.connectedAt.toLocaleString()}\n\n`
+            })
+            await bot.sendMessage(id, message)
+        }
     } catch (error) {
         logger.error(error, `Something went wrong with chat ${id} dump request.`)
         await bot.sendMessage(id, 'An error occurred while dumping the database tables.')
