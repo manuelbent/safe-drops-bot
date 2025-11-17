@@ -4,10 +4,10 @@ import axiosRetry from 'axios-retry'
 import TelegramService from '../services/TelegramService'
 import Market from '../models/Market'
 
-import vpnService from '../services/VPNService'
 import chatService from '../services/ChatService'
 import feedItemService from '../services/FeedItemService'
 import ocrSpaceService from '../services/OCRSpaceService'
+import ovpnConfigService from '../services/OvpnConfigService'
 import upcomingItemService from '../services/UpcomingItemService'
 
 import { sleep } from '../utils/commands'
@@ -44,7 +44,7 @@ class Monitor {
             response => response,
             async error => {
                 if (error.response && error.response.status === 403) {
-                    await vpnService.restart()
+                    await ovpnConfigService.restart()
                     return axios(error.config)
                 }
                 return Promise.reject(error)
