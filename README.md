@@ -22,6 +22,11 @@ Summarized:
 ### Development
 To develop this application, you need to setup a Telegram Bot.
 
+The project uses Node.js 26. Its dependency overrides replace an unused legacy
+`request` peer with the Cypress fork and use patched `qs` and `uuid` versions.
+Keep these overrides until the upstream Telegram and Sequelize dependencies
+no longer need them; run `npm test` when changing them.
+
 #### Setup a Telegram Bot
 * Open Telegram and search for `BotFather` (official by Telegram)
 * Start a conversation with it with the Start button

@@ -26,10 +26,11 @@ jobs:
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           cd /var/www/safe-drops-bot
           git pull
-          nvm use
+          nvm install
+          export NODE_EXECUTABLE="$(command -v node)"
           npm ci
           npm run build
           npm run migrate:up
           npm i -g pm2
-          pm2 restart bot
+          pm2 startOrRestart ecosystem.config.js --update-env
           EOF
