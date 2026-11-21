@@ -86,24 +86,6 @@ class TelegramService {
 
         await Promise.all(promises)
     }
-
-    /**
-     * @method sendBackup
-     * @param {string} backupFilePath - The path to the backup file
-     * @param {string} timestamp - The timestamp for the backup caption
-     * @returns {Promise<void>}
-     */
-    async sendBackup(backupFilePath: string, timestamp: string): Promise<void> {
-        try {
-            await this.bot.sendDocument(process.env.ADMIN_CHAT!, backupFilePath, {
-                caption: `📦 Database Backup\n${timestamp}`
-            })
-            logger.info('Backup file sent successfully to admin chat.')
-        } catch (error) {
-            logger.error(error, 'Failed to send backup file to admin chat.')
-            throw error
-        }
-    }
 }
 
 export default TelegramService

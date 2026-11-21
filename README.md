@@ -39,7 +39,18 @@ no longer need them; run `npm test` when changing them.
 Once you've done that, obtain the secret token and set it up in a file named `.env` in the root of the repo, with the following content:
 ```
 TELEGRAM_BOT_TOKEN=<your-token>
+R2_ACCOUNT_ID=<your-cloudflare-account-id>
+R2_ACCESS_KEY_ID=<your-r2-access-key-id>
+R2_SECRET_ACCESS_KEY=<your-r2-secret-access-key>
+R2_BUCKET_NAME=<your-r2-bucket-name>
 ```
+
+The database backup runs daily at midnight UTC and uploads a SQLite snapshot to
+the root of the private R2 bucket. Local backup files older than 30 days
+are removed after a successful upload. R2 objects are not automatically deleted;
+configure a bucket lifecycle rule if remote retention is required. If the R2
+configuration is missing, the backup job will not be scheduled and the error
+will be logged.
 
 Once the configuration is finished, you can launch the application, you can build the container in a safe way:
 ```bash

@@ -38,4 +38,4 @@ bot.on('callback_query', callback(bot))
 initializeMonitors(telegramService).catch(logger.error)
 
 // initialize database backup cronjob
-initializeBackupCron(telegramService).catch(logger.error)
+initializeBackupCron().catch(logger.error)

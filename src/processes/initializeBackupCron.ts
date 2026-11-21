@@ -5,7 +5,7 @@ import cron from 'node-cron'
 import { exec, mkdir } from '../utils/commands'
 import logger from '../utils/logger'
 
-import TelegramService from '../services/TelegramService'
+import R2Service from '../services/R2Service'
 
 /**
  * @description Delete backup files older than specified days
@@ -38,9 +38,9 @@ const cleanupOldBackups = async (backupDir: string, maxDays: number): Promise<vo
 /**
  * @description Initialize the backup cron job to run daily at midnight.
  * Performs a backup of the SQLite database using SQLite's native backup command.
- * @param telegramService - TelegramService instance for sending backup files
  */
-export default async (telegramService: TelegramService): Promise<void> => {
+export default async (): Promise<void> => {
+    const r2Service = new R2Service()
     logger.info('Initializing database backup cron job...')
 
     // Schedule backup to run every day at midnight (00:00)
@@ -68,7 +68,13 @@ export default async (telegramService: TelegramService): Promise<void> => {
             await exec(backupCommand)
             logger.info(`Database backup completed successfully: ${backupFile}`)
 
-            await telegramService.sendBackup(backupFile, timestamp)
+            await r2Service.upload(
+                await fs.promises.readFile(backupFile),
+                'application/vnd.sqlite3',
+                path.basename(backupFile),
+                ''
+            )
+            logger.info('Database backup uploaded successfully to R2')
 
             await cleanupOldBackups(backupDir, 30)
         } catch (error) {
