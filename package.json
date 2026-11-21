@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "pretest": "npm run build",
     "test": "node --test",
     "start": "node --env-file=.env dist/src/index.js",
     "migrate:up": "npx sequelize-cli db:migrate --config database/config.json --migrations-path database/migrations",
