@@ -1,37 +1,59 @@
-name: Deploy to Ionos
+  name: Deploy to Ionos
 
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
+  on:
+    workflow_dispatch:
+    push:
+      branches:
+        - main
 
-jobs:
-  deploy:
-    name: Deploy to Ionos
-    runs-on: ubuntu-latest
+  jobs:
+    deploy:
+      name: Deploy to Ionos
+      runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v5
 
-      - name: Add SSH key
-        uses: webfactory/ssh-agent@v0.10.0
-        with:
-          ssh-private-key: ${{ secrets.IONOS_SSH_PRIVATE_KEY }}
+        - name: Add SSH key
+          uses: webfactory/ssh-agent@v0.10.0
+          with:
+            ssh-private-key: ${{ secrets.IONOS_SSH_PRIVATE_KEY }}
 
-      - name: Deploy to Ionos server
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.IONOS_USER }}@${{ secrets.IONOS_HOST }} << 'EOF'
-          set -e
-          export NVM_DIR="$HOME/.nvm"
-          . "$NVM_DIR/nvm.sh"
-          cd /var/www/safe-drops-bot
-          git pull
-          nvm install
-          npm ci
-          npm run build
-          npm run migrate:up
-          npm i -g pm2
-          pm2 startOrRestart ecosystem.config.js --update-env
-          EOF
+        - name: Deploy to Ionos server
+          run: |
+            ssh -o StrictHostKeyChecking=no ${{ secrets.IONOS_USER }}@${{ secrets.IONOS_HOST }} << 'EOF'
+            set -e
+            
+            export NVM_DIR="$HOME/.nvm"
+            . "$NVM_DIR/nvm.sh"
+            
+            cd /var/www/safe-drops-bot
+            
+            # Install and use the project's pinned Node.js version
+            nvm install
+            nvm use
+            
+            echo "Node version:"
+            node -v
+            
+            echo "GLIBC version:"
+            ldd --version | head -1
+            
+            # Pull latest changes
+            git pull
+            
+            # Install dependencies, compiling native modules from source
+            npm_config_build_from_source=true npm ci
+            
+            # Build application
+            npm run build
+            
+            # Run database migrations
+            npm run migrate:up
+            
+            # Restart application
+            npm i -g pm2
+            pm2 startOrRestart ecosystem.config.js --update-env
+            
+            EOF
