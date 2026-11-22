@@ -22,7 +22,7 @@ Summarized:
 ### Development
 To develop this application, you need to setup a Telegram Bot.
 
-The project uses Node.js 26. Its dependency overrides replace an unused legacy
+The project uses Node.js 22. Its dependency overrides replace an unused legacy
 `request` peer with the Cypress fork and use patched `qs` and `uuid` versions.
 Keep these overrides until the upstream Telegram and Sequelize dependencies
 no longer need them; run `npm test` when changing them.

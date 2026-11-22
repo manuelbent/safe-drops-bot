@@ -28,7 +28,7 @@ jobs:
           . "$NVM_DIR/nvm.sh"
           cd /var/www/safe-drops-bot
           git pull
-          nvm use
+          nvm install
           npm ci
           npm run build
           npm run migrate:up
